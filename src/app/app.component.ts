@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  title = 'glitch';
+  // image: any;
+
+  uploadImage(event) {
+    const files = event.target.files;
+    console.log("files", files);
+  }
 }
