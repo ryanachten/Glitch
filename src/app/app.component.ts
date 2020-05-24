@@ -8,6 +8,10 @@ import { Component } from "@angular/core";
 export class AppComponent {
   originalImage: string;
   modifiedImage: string;
+  replaceQueryString: string;
+  replaceQueryMatches: number;
+  replaceSubstituteString: string;
+  maxReplaceLength = 3;
   dataHeader = "data:image/jpeg;base64,";
 
   uploadImage(event) {
@@ -21,16 +25,16 @@ export class AppComponent {
     fileReader.readAsDataURL(files[0]);
   }
 
-  generateRandomQuery(imageBody: string) {
-    const substrLength = Math.floor(Math.random() * 3);
-    const startIndex = Math.floor(
-      Math.random() * (imageBody.length - substrLength)
-    );
-    const replaceIndex = Math.floor(
-      Math.random() * (imageBody.length - substrLength)
-    );
+  seedQuery(imageBody: string) {
+    const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
+    const startIndex =
+      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
+    const replaceIndex =
+      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
     const queryStr = imageBody.substr(startIndex, substrLength);
     const replaceStr = imageBody.substr(replaceIndex, substrLength);
+    this.replaceQueryString = queryStr;
+    this.replaceSubstituteString = replaceStr;
     return {
       replaceStr,
       replaceRegex: new RegExp(queryStr, "g")
@@ -45,7 +49,9 @@ export class AppComponent {
 
   mutateImage() {
     const decodedUri = atob(this.originalImage.replace(this.dataHeader, ""));
-    const { replaceRegex, replaceStr } = this.generateRandomQuery(decodedUri);
+    const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
+    this.replaceQueryMatches = decodedUri.match(replaceRegex).length;
+
     const modifiedImage = decodedUri.replace(replaceRegex, replaceStr);
     this.updateImage(modifiedImage);
   }
