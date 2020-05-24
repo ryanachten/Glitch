@@ -8,6 +8,7 @@ import { Component } from "@angular/core";
 export class AppComponent {
   originalImage: string;
   modifiedImage: string;
+  dataHeader = "data:image/jpeg;base64,";
 
   uploadImage(event) {
     const files = event.target.files;
@@ -20,29 +21,33 @@ export class AppComponent {
     fileReader.readAsDataURL(files[0]);
   }
 
-  mutateImage() {
-    const dataHeader = "data:image/jpeg;base64,";
-    const decodedUri = atob(this.originalImage.replace(dataHeader, ""));
-    const replaceRegex = this.generateRandomQuery(decodedUri);
-    console.log("replaceRegex", replaceRegex);
-    const matches = decodedUri.match(replaceRegex);
-    if (matches && matches.length) {
-      console.log("matches", matches.length);
-      const modifiedImage = decodedUri.replace(replaceRegex, "cd");
-      const encodedModifiedImage = `${dataHeader}${btoa(modifiedImage)}`;
-      this.modifiedImage = encodedModifiedImage;
-
-      this.generateCanvas();
-    }
-  }
-
-  generateRandomQuery(imageBody: string): RegExp {
+  generateRandomQuery(imageBody: string) {
     const substrLength = Math.floor(Math.random() * 3);
     const startIndex = Math.floor(
       Math.random() * (imageBody.length - substrLength)
     );
+    const replaceIndex = Math.floor(
+      Math.random() * (imageBody.length - substrLength)
+    );
     const queryStr = imageBody.substr(startIndex, substrLength);
-    return new RegExp(queryStr, "g");
+    const replaceStr = imageBody.substr(replaceIndex, substrLength);
+    return {
+      replaceStr,
+      replaceRegex: new RegExp(queryStr, "g")
+    };
+  }
+
+  updateImage(modifiedImage) {
+    const encodedModifiedImage = `${this.dataHeader}${btoa(modifiedImage)}`;
+    this.modifiedImage = encodedModifiedImage;
+    this.generateCanvas();
+  }
+
+  mutateImage() {
+    const decodedUri = atob(this.originalImage.replace(this.dataHeader, ""));
+    const { replaceRegex, replaceStr } = this.generateRandomQuery(decodedUri);
+    const modifiedImage = decodedUri.replace(replaceRegex, replaceStr);
+    this.updateImage(modifiedImage);
   }
 
   generateCanvas() {
