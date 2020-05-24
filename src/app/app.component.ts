@@ -36,19 +36,44 @@ export class AppComponent {
     fileReader.readAsDataURL(files[0]);
   }
 
-  seedQuery(imageBody: string) {
+  seedQuery(
+    imageBody: string
+  ): {
+    replaceStr: string;
+    replaceRegex: RegExp;
+  } {
     const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
-    const startIndex =
-      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
+
+    let queryStr: string;
+    const setQueryStr = () => {
+      const startIndex =
+        Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
+      queryStr = imageBody.substr(startIndex, substrLength);
+    };
+    setQueryStr();
+
     const replaceIndex =
       Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-    const queryStr = imageBody.substr(startIndex, substrLength);
     const replaceStr = imageBody.substr(replaceIndex, substrLength);
+
+    // Random query string sometimes produces invalid regex
+    // keep randomly generating until a valid one is produced
+    let replaceRegex: RegExp;
+    while (!replaceRegex) {
+      try {
+        const tmpRegex = new RegExp(queryStr, "g");
+        replaceRegex = tmpRegex;
+      } catch (error) {
+        setQueryStr();
+      }
+    }
+
     this.replaceQueryString = queryStr;
     this.replaceSubstituteString = replaceStr;
+
     return {
       replaceStr,
-      replaceRegex: new RegExp(queryStr, "g")
+      replaceRegex
     };
   }
 
