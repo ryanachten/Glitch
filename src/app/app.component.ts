@@ -12,13 +12,24 @@ export class AppComponent {
   replaceQueryMatches: number;
   replaceSubstituteString: string;
   maxReplaceLength = 3;
-  dataHeader = "data:image/jpeg;base64,";
+  dataHeader: string;
+  mimeType: string;
+
+  setDataHeader(dataUri: string) {
+    const mimeRegex = /data:(.*);base64,/;
+    const regexMatches = mimeRegex.exec(dataUri);
+    if (regexMatches && regexMatches.length) {
+      this.dataHeader = regexMatches[0];
+      this.mimeType = regexMatches[1];
+    }
+  }
 
   uploadImage(event) {
     const files = event.target.files;
     const fileReader: FileReader = new FileReader();
     fileReader.onload = e => {
       const encodedUri = e.target.result.toString();
+      this.setDataHeader(encodedUri);
       this.originalImage = encodedUri;
       this.mutateImage();
     };
