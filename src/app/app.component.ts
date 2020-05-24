@@ -26,6 +26,9 @@ export class AppComponent {
 
   uploadImage(event) {
     const files = event.target.files;
+    if (!files.length) {
+      return;
+    }
     const fileReader: FileReader = new FileReader();
     fileReader.onload = e => {
       const encodedUri = e.target.result.toString();
@@ -97,9 +100,22 @@ export class AppComponent {
     const ctx = canvas.getContext("2d");
     const image = new Image();
     image.onload = () => {
-      canvas.height = image.height;
-      canvas.width = image.width;
-      ctx.drawImage(image, 0, 0);
+      let canvasWidth = image.width;
+      let canvasHeight = image.height;
+
+      // Scale image down if it exceeds window dimensions
+      if (canvasWidth > window.innerWidth) {
+        canvasHeight = (window.innerWidth / canvasWidth) * canvasHeight;
+        canvasWidth = window.innerWidth;
+      }
+      if (canvasHeight > window.innerHeight) {
+        canvasWidth = (window.innerWidth / canvasHeight) * canvasWidth;
+        canvasHeight = window.innerHeight;
+      }
+
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
     };
     image.src = this.modifiedImage;
   }
