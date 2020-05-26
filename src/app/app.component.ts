@@ -39,6 +39,7 @@ export class AppComponent {
   }
 
   async createGeneration() {
+    this.generatedImages = [];
     for (let index = 0; index < this.generationSize; index++) {
       await this.mutateImage();
     }
@@ -52,6 +53,10 @@ export class AppComponent {
   } {
     const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
 
+    const replaceIndex =
+      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
+    const replaceStr = imageBody.substr(replaceIndex, substrLength);
+
     let queryStr: string;
     const setQueryStr = () => {
       const startIndex =
@@ -59,10 +64,6 @@ export class AppComponent {
       queryStr = imageBody.substr(startIndex, substrLength);
     };
     setQueryStr();
-
-    const replaceIndex =
-      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-    const replaceStr = imageBody.substr(replaceIndex, substrLength);
 
     // Random query string sometimes produces invalid regex
     // keep randomly generating until a valid one is produced
