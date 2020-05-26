@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ModifiedImage } from "./models";
 
 @Component({
   selector: "app-root",
@@ -8,10 +9,7 @@ import { Component } from "@angular/core";
 export class AppComponent {
   originalImage: string;
   generationSize = 3;
-  generatedImages: Array<string> = [];
-  replaceQueryString: string;
-  replaceQueryMatches: number;
-  replaceSubstituteString: string;
+  generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
   dataHeader: string;
   mimeType: string;
@@ -78,9 +76,6 @@ export class AppComponent {
       }
     }
 
-    this.replaceQueryString = queryStr;
-    this.replaceSubstituteString = replaceStr;
-
     return {
       replaceStr,
       replaceRegex,
@@ -90,10 +85,16 @@ export class AppComponent {
   async mutateImage() {
     const decodedUri = atob(this.originalImage.replace(this.dataHeader, ""));
     const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
-    this.replaceQueryMatches = decodedUri.match(replaceRegex).length;
 
-    const modifiedImage = decodedUri.replace(replaceRegex, replaceStr);
-    const encodedModifiedImage = `${this.dataHeader}${btoa(modifiedImage)}`;
-    this.generatedImages.push(encodedModifiedImage);
+    const imageData = decodedUri.replace(replaceRegex, replaceStr);
+    const encodedImageData = `${this.dataHeader}${btoa(imageData)}`;
+
+    const modifiedImage: ModifiedImage = {
+      replacementQuery: replaceRegex.source,
+      replacementText: replaceStr,
+      replacementMatches: decodedUri.match(replaceRegex).length,
+      imageData: encodedImageData,
+    };
+    this.generatedImages.push(modifiedImage);
   }
 }

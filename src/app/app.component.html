@@ -16,5 +16,6 @@
   <span>Replacement length </span>
   <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxReplaceLength" />
 </div>
-<!-- <canvas *ngFor="let image of generatedImages" height="300" width="300"></canvas> -->
-<app-canvas *ngFor="let image of generatedImages" [imageData]="image"></app-canvas>
+<div class="image-wrapper">
+  <app-canvas *ngFor="let image of generatedImages" [modifiedImage]="image"></app-canvas>
+</div>

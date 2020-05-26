@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { ModifiedImage } from "src/app/models";
 
 @Component({
   selector: "app-canvas",
@@ -6,9 +7,8 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
   styleUrls: ["./canvas.component.scss"],
 })
 export class CanvasComponent implements OnInit {
-  @Input() imageData: string;
+  @Input() modifiedImage: ModifiedImage;
   @ViewChild("canvas", { static: true }) canvasElement;
-
   imageElement: HTMLImageElement;
 
   constructor() {}
@@ -20,7 +20,7 @@ export class CanvasComponent implements OnInit {
   loadImage() {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.src = this.imageData;
+      img.src = this.modifiedImage.imageData;
       img.onload = () => {
         this.imageElement = img;
         console.log(img.height, img.width);
