@@ -44,7 +44,6 @@ export class AppComponent {
     for (let index = 0; index < this.generationSize; index++) {
       await this.mutateImage();
     }
-    this.updateCanvas();
   }
 
   seedQuery(
@@ -96,55 +95,5 @@ export class AppComponent {
     const modifiedImage = decodedUri.replace(replaceRegex, replaceStr);
     const encodedModifiedImage = `${this.dataHeader}${btoa(modifiedImage)}`;
     this.generatedImages.push(encodedModifiedImage);
-  }
-
-  loadImages() {
-    return new Promise((resolve) => {
-      const loadedImages = [];
-      this.generatedImages.forEach((imgData) => {
-        const img = new Image();
-        img.src = imgData;
-        img.onload = () => {
-          loadedImages.push(img);
-          if (loadedImages.length === this.generationSize) {
-            resolve(loadedImages);
-          }
-        };
-      });
-    });
-  }
-
-  async updateCanvas() {
-    const loadedImages = await this.loadImages();
-    // TODO: find proper angular way of doing this
-    const canvases = document.querySelectorAll("canvas");
-    canvases.forEach((canvas: HTMLCanvasElement, index: number) => {
-      const ctx = canvas.getContext("2d");
-      const image = loadedImages[index];
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    });
-
-    // const canvas = document.querySelector("canvas");
-    // const ctx = canvas.getContext("2d");
-    // const image = new Image();
-    // image.onload = () => {
-    //   let canvasWidth = image.width;
-    //   let canvasHeight = image.height;
-
-    //   // Scale image down if it exceeds window dimensions
-    //   if (canvasWidth > window.innerWidth) {
-    //     canvasHeight = (window.innerWidth / canvasWidth) * canvasHeight;
-    //     canvasWidth = window.innerWidth;
-    //   }
-    //   if (canvasHeight > window.innerHeight) {
-    //     canvasWidth = (window.innerWidth / canvasHeight) * canvasWidth;
-    //     canvasHeight = window.innerHeight;
-    //   }
-
-    //   canvas.width = canvasWidth;
-    //   canvas.height = canvasHeight;
-    //   ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
-    // };
-    // image.src = this.generatedImages[0];
   }
 }
