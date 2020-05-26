@@ -1,3 +1,8 @@
+<input name="image" type="file" (change)="uploadImage($event)" />
+<div>
+  <span>Generation size </span>
+  <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />
+</div>
 <p *ngIf="mimeType">Media type of {{ mimeType }}</p>
 <p *ngIf="replaceQueryString !== undefined">
   Find "{{ replaceQueryString }}"
@@ -6,14 +11,9 @@
 <p *ngIf="replaceQueryMatches !== undefined">
   Replace with "{{ replaceSubstituteString }}"
 </p>
-<button (click)="mutateImage()" *ngIf="modifiedImage">Regenerate</button>
-<input
-  name="maxReplaceLength"
-  type="number"
-  max="10"
-  min="1"
-  value="3"
-  [(ngModel)]="maxReplaceLength"
-/>
-<input name="image" type="file" (change)="uploadImage($event)" />
-<canvas height="0" width="0"></canvas>
+<!-- <button (click)="mutateImage()" *ngIf="modifiedImages.length">Regenerate</button> -->
+<div>
+  <span>Replacement length </span>
+  <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxReplaceLength" />
+</div>
+<canvas *ngFor="let image of generatedImages" height="300" width="300"></canvas>
