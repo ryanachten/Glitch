@@ -8,7 +8,7 @@ import { ModifiedImage } from "./models";
 })
 export class AppComponent {
   originalImage: string;
-  generationSize = 3;
+  generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
   dataHeader: string;
