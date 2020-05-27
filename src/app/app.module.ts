@@ -5,9 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { CanvasComponent } from './components/canvas/canvas.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
 
 @NgModule({
-  declarations: [AppComponent, CanvasComponent],
+  declarations: [AppComponent, CanvasComponent, GalleryComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],

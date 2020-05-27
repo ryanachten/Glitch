@@ -1,14 +1,1 @@
-<input name="image" type="file" (change)="uploadImage($event)" />
-<button (click)="createGeneration()" *ngIf="generatedImages.length">Regenerate</button>
-<div>
-  <span>Generation size </span>
-  <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />
-</div>
-<p *ngIf="mimeType">Media type of {{ mimeType }}</p>
-<div>
-  <span>Replacement length </span>
-  <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxReplaceLength" />
-</div>
-<div class="image-wrapper">
-  <app-canvas *ngFor="let image of generatedImages" [modifiedImage]="image"></app-canvas>
-</div>
+<app-gallery></app-gallery>
