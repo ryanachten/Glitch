@@ -7,16 +7,50 @@ import { ModifiedImage } from "src/app/models";
   styleUrls: ["./gallery.component.scss"],
 })
 export class GalleryComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-
   originalImage: string;
   generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
   dataHeader: string;
   mimeType: string;
+
+  constructor() {}
+
+  ngOnInit() {
+    this.loadSettings();
+  }
+
+  loadSettings() {
+    const settings = localStorage.getItem("settings");
+    if (settings) {
+      const {
+        originalImage,
+        generationSize,
+        generatedImages,
+        mimeType,
+        maxReplaceLength,
+        dataHeader,
+      } = JSON.parse(settings);
+      this.originalImage = originalImage;
+      this.generationSize = generationSize;
+      this.generatedImages = generatedImages;
+      this.mimeType = mimeType;
+      this.maxReplaceLength = maxReplaceLength;
+      this.dataHeader = dataHeader;
+    }
+  }
+
+  saveSettings() {
+    const settings = {
+      originalImage: this.originalImage,
+      generationSize: this.generationSize,
+      generatedImages: this.generatedImages,
+      maxReplaceLength: this.maxReplaceLength,
+      dataHeader: this.dataHeader,
+      mimeType: this.mimeType,
+    };
+    localStorage.setItem("settings", JSON.stringify(settings));
+  }
 
   setDataHeader(dataUri: string) {
     const mimeRegex = /data:(.*);base64,/;
@@ -47,6 +81,7 @@ export class GalleryComponent implements OnInit {
     for (let index = 0; index < this.generationSize; index++) {
       await this.mutateImage();
     }
+    this.saveSettings();
   }
 
   seedQuery(
