@@ -8,6 +8,7 @@ import { ModifiedImage } from "src/app/models";
 })
 export class GalleryComponent implements OnInit {
   originalImage: string;
+  epoch = 0;
   generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
@@ -67,7 +68,10 @@ export class GalleryComponent implements OnInit {
       return;
     }
     const fileReader: FileReader = new FileReader();
-    fileReader.onload = (e) => {
+    fileReader.onload = (e: ProgressEvent<FileReader>) => {
+      if (!e.target.result) {
+        return null;
+      }
       const encodedUri = e.target.result.toString();
       this.setDataHeader(encodedUri);
       this.originalImage = encodedUri;
@@ -81,6 +85,7 @@ export class GalleryComponent implements OnInit {
     for (let index = 0; index < this.generationSize; index++) {
       await this.mutateImage();
     }
+    this.epoch = this.epoch + 1;
     this.saveSettings();
   }
 
@@ -130,9 +135,13 @@ export class GalleryComponent implements OnInit {
     const encodedImageData = `${this.dataHeader}${btoa(imageData)}`;
 
     const modifiedImage: ModifiedImage = {
-      replacementQuery: replaceRegex.source,
-      replacementText: replaceStr,
-      replacementMatches: decodedUri.match(replaceRegex).length,
+      mutations: [
+        {
+          replacementQuery: replaceRegex.source,
+          replacementText: replaceStr,
+          replacementMatches: decodedUri.match(replaceRegex).length,
+        },
+      ],
       imageData: encodedImageData,
     };
     this.generatedImages.push(modifiedImage);

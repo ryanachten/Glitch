@@ -1,6 +1,8 @@
 <div class="container">
-    <p>Query: "{{modifiedImage.replacementQuery}}"</p>
-    <p>Matches: "{{modifiedImage.replacementMatches}}"</p>
-    <p>Text: "{{modifiedImage.replacementText}}"</p>
+    <div *ngIf="mutation">
+        <p>Query: "{{mutation.replacementQuery}}"</p>
+        <p>Matches: "{{mutation.replacementMatches}}"</p>
+        <p>Text: "{{mutation.replacementText}}"</p>
+    </div>
     <canvas #canvas></canvas>
 </div>

@@ -1,5 +1,7 @@
 <input name="image" type="file" (change)="uploadImage($event)" />
+<p>Current generation {{ epoch }}</p>
 <button (click)="createGeneration()" *ngIf="generatedImages.length">Regenerate</button>
+<button (click)="createGeneration()" *ngIf="generatedImages.length">Next Generation</button>
 <div>
     <span>Generation size </span>
     <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />
