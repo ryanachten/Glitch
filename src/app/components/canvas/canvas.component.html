@@ -4,5 +4,6 @@
         <p>Matches: "{{mutation.replacementMatches}}"</p>
         <p>Text: "{{mutation.replacementText}}"</p>
     </div>
+    <p *ngIf="error">{{error}}</p>
     <canvas #canvas></canvas>
 </div>

@@ -40,6 +40,7 @@ export class GalleryComponent implements OnInit, Settings {
       this.maxReplaceLength = maxReplaceLength;
       this.dataHeader = dataHeader;
       this.epoch = epoch;
+      console.log("generatedImages", generatedImages);
     }
   }
 

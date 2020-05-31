@@ -11,6 +11,7 @@ export class CanvasComponent implements OnInit {
   @ViewChild("canvas", { static: true }) canvasElement;
   imageElement: HTMLImageElement;
   mutation: ReplacementMutation;
+  error: string;
 
   constructor() {}
 
@@ -22,15 +23,22 @@ export class CanvasComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = this.modifiedImage.imageData;
-      img.onload = () => {
+      img.onload = (e) => {
         this.imageElement = img;
         resolve();
+      };
+      img.onerror = (e) => {
+        reject(e);
       };
     });
   }
 
   async renderImage() {
-    await this.loadImage();
+    try {
+      await this.loadImage();
+    } catch (error) {
+      return (this.error = "Image corrupted!");
+    }
     const mutations = this.modifiedImage.mutations;
     this.mutation = mutations[mutations.length - 1];
     const canvas = this.canvasElement.nativeElement;
