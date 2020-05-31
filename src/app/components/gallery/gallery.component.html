@@ -1,10 +1,11 @@
 <input name="image" type="file" (change)="uploadImage($event)" />
 <p *ngIf="mimeType">Media type of {{ mimeType }}</p>
 <img *ngIf="this.originalImage" src={{this.originalImage}} alt="Original Image">
-<p>Current generation {{ epoch }}</p>
+<p>Current generation: {{ epoch }}</p>
 <!-- TODO: fix or remove regenerate button -->
 <button disabled="true" (click)="createGeneration()" *ngIf="generatedImages.length">Regenerate</button>
-<button (click)="createGeneration()" *ngIf="generatedImages.length">Next Generation</button>
+<button (click)="createGeneration()" *ngIf="originalImage">Next Generation</button>
+<button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
 <div>
     <span>Generation size </span>
     <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />

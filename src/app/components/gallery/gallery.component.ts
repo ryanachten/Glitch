@@ -83,6 +83,12 @@ export class GalleryComponent implements OnInit, Settings {
     fileReader.readAsDataURL(files[0]);
   }
 
+  resetEvolution() {
+    this.generatedImages = [];
+    this.epoch = 0;
+    this.saveSettings();
+  }
+
   async createGeneration() {
     for (let i = 0; i < this.generationSize; i++) {
       const existingImage = this.generatedImages[i];
