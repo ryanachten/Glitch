@@ -24,7 +24,6 @@ export class CanvasComponent implements OnInit {
       img.src = this.modifiedImage.imageData;
       img.onload = () => {
         this.imageElement = img;
-        console.log(img.height, img.width);
         resolve();
       };
     });

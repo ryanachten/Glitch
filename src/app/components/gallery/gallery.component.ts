@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ModifiedImage } from "src/app/models";
+import { ModifiedImage, Settings } from "src/app/models";
 
 @Component({
   selector: "app-gallery",
   templateUrl: "./gallery.component.html",
   styleUrls: ["./gallery.component.scss"],
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, Settings {
   originalImage: string;
   epoch = 0;
   generationSize = 6;
@@ -31,24 +31,27 @@ export class GalleryComponent implements OnInit {
         mimeType,
         maxReplaceLength,
         dataHeader,
-      } = JSON.parse(settings);
+        epoch,
+      }: Settings = JSON.parse(settings);
       this.originalImage = originalImage;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
       this.mimeType = mimeType;
       this.maxReplaceLength = maxReplaceLength;
       this.dataHeader = dataHeader;
+      this.epoch = epoch;
     }
   }
 
   saveSettings() {
-    const settings = {
+    const settings: Settings = {
       originalImage: this.originalImage,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
       maxReplaceLength: this.maxReplaceLength,
       dataHeader: this.dataHeader,
       mimeType: this.mimeType,
+      epoch: this.epoch,
     };
     localStorage.setItem("settings", JSON.stringify(settings));
   }
@@ -81,9 +84,19 @@ export class GalleryComponent implements OnInit {
   }
 
   async createGeneration() {
-    this.generatedImages = [];
-    for (let index = 0; index < this.generationSize; index++) {
-      await this.mutateImage();
+    for (let i = 0; i < this.generationSize; i++) {
+      const existingImage = this.generatedImages[i];
+      const image = await this.mutateImage(
+        // If image does not exist at index, create new one
+        existingImage || {
+          mutations: [],
+          imageData: this.originalImage,
+        }
+      );
+      // If image already exists, replace it with updated img
+      existingImage
+        ? (this.generatedImages[i] = image)
+        : this.generatedImages.push(image);
     }
     this.epoch = this.epoch + 1;
     this.saveSettings();
@@ -127,15 +140,16 @@ export class GalleryComponent implements OnInit {
     };
   }
 
-  async mutateImage() {
-    const decodedUri = atob(this.originalImage.replace(this.dataHeader, ""));
+  async mutateImage(image: ModifiedImage): Promise<ModifiedImage> {
+    const decodedUri = atob(image.imageData.replace(this.dataHeader, ""));
     const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
 
-    const imageData = decodedUri.replace(replaceRegex, replaceStr);
-    const encodedImageData = `${this.dataHeader}${btoa(imageData)}`;
+    const updatedImageData = decodedUri.replace(replaceRegex, replaceStr);
+    const encodedImageData = `${this.dataHeader}${btoa(updatedImageData)}`;
 
     const modifiedImage: ModifiedImage = {
       mutations: [
+        ...image.mutations,
         {
           replacementQuery: replaceRegex.source,
           replacementText: replaceStr,
@@ -144,6 +158,6 @@ export class GalleryComponent implements OnInit {
       ],
       imageData: encodedImageData,
     };
-    this.generatedImages.push(modifiedImage);
+    return modifiedImage;
   }
 }
