@@ -144,6 +144,7 @@ export class GalleryComponent implements OnInit, Settings {
     const decodedUri = atob(image.imageData.replace(this.dataHeader, ""));
     const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
 
+    const replacementMatches = decodedUri.match(replaceRegex);
     const updatedImageData = decodedUri.replace(replaceRegex, replaceStr);
     const encodedImageData = `${this.dataHeader}${btoa(updatedImageData)}`;
 
@@ -153,7 +154,9 @@ export class GalleryComponent implements OnInit, Settings {
         {
           replacementQuery: replaceRegex.source,
           replacementText: replaceStr,
-          replacementMatches: decodedUri.match(replaceRegex).length,
+          replacementMatches: replacementMatches
+            ? replacementMatches.length
+            : 0,
         },
       ],
       imageData: encodedImageData,
