@@ -1,21 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { ModifiedImage, Settings } from "src/app/models";
+import { EncodingService } from "src/app/services/encoding.service";
 
 @Component({
   selector: "app-gallery",
   templateUrl: "./gallery.component.html",
   styleUrls: ["./gallery.component.scss"],
 })
-export class GalleryComponent implements OnInit, Settings {
+export class GalleryComponent implements OnInit {
   originalImage: string;
   epoch = 0;
   generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
-  dataHeader: string;
-  mimeType: string;
 
-  constructor() {}
+  constructor(private encodingService: EncodingService) {}
 
   ngOnInit() {
     this.loadSettings();
@@ -28,17 +27,17 @@ export class GalleryComponent implements OnInit, Settings {
         originalImage,
         generationSize,
         generatedImages,
-        mimeType,
         maxReplaceLength,
-        dataHeader,
         epoch,
+        mimeType,
+        dataHeader,
       }: Settings = JSON.parse(settings);
       this.originalImage = originalImage;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
-      this.mimeType = mimeType;
+      this.encodingService.mimeType = mimeType;
       this.maxReplaceLength = maxReplaceLength;
-      this.dataHeader = dataHeader;
+      this.encodingService.dataHeader = dataHeader;
       this.epoch = epoch;
       console.log("generatedImages", generatedImages);
     }
@@ -50,20 +49,11 @@ export class GalleryComponent implements OnInit, Settings {
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
       maxReplaceLength: this.maxReplaceLength,
-      dataHeader: this.dataHeader,
-      mimeType: this.mimeType,
+      dataHeader: this.encodingService.dataHeader,
+      mimeType: this.encodingService.mimeType,
       epoch: this.epoch,
     };
     localStorage.setItem("settings", JSON.stringify(settings));
-  }
-
-  setDataHeader(dataUri: string) {
-    const mimeRegex = /data:(.*);base64,/;
-    const regexMatches = mimeRegex.exec(dataUri);
-    if (regexMatches && regexMatches.length) {
-      this.dataHeader = regexMatches[0];
-      this.mimeType = regexMatches[1];
-    }
   }
 
   uploadImage(event) {
@@ -77,7 +67,7 @@ export class GalleryComponent implements OnInit, Settings {
         return null;
       }
       const encodedUri = e.target.result.toString();
-      this.setDataHeader(encodedUri);
+      this.encodingService.setDataHeader(encodedUri);
       this.originalImage = encodedUri;
       this.createGeneration();
     };
@@ -148,12 +138,12 @@ export class GalleryComponent implements OnInit, Settings {
   }
 
   async mutateImage(image: ModifiedImage): Promise<ModifiedImage> {
-    const decodedUri = atob(image.imageData.replace(this.dataHeader, ""));
+    const decodedUri = this.encodingService.decodeData(image.imageData);
     const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
 
     const replacementMatches = decodedUri.match(replaceRegex);
     const updatedImageData = decodedUri.replace(replaceRegex, replaceStr);
-    const encodedImageData = `${this.dataHeader}${btoa(updatedImageData)}`;
+    const encodedImageData = this.encodingService.encodeData(updatedImageData);
 
     const modifiedImage: ModifiedImage = {
       mutations: [
