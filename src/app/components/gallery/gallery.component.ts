@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ModifiedImage, Settings } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
+import { GlitchService } from "src/app/services/glitch.service";
 
 @Component({
   selector: "app-gallery",
@@ -14,7 +15,10 @@ export class GalleryComponent implements OnInit {
   generatedImages: Array<ModifiedImage> = [];
   maxReplaceLength = 3;
 
-  constructor(private encodingService: EncodingService) {}
+  constructor(
+    private encodingService: EncodingService,
+    private glitchService: GlitchService
+  ) {}
 
   ngOnInit() {
     this.loadSettings();
@@ -99,61 +103,33 @@ export class GalleryComponent implements OnInit {
     this.saveSettings();
   }
 
-  seedQuery(
-    imageBody: string
-  ): {
-    replaceStr: string;
-    replaceRegex: RegExp;
-  } {
-    const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
-
-    const replaceIndex =
-      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-    const replaceStr = imageBody.substr(replaceIndex, substrLength);
-
-    let queryStr: string;
-    const setQueryStr = () => {
-      const startIndex =
-        Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-      queryStr = imageBody.substr(startIndex, substrLength);
-    };
-    setQueryStr();
-
-    // Random query string sometimes produces invalid regex
-    // keep randomly generating until a valid one is produced
-    let replaceRegex: RegExp;
-    while (!replaceRegex) {
-      try {
-        const tmpRegex = new RegExp(queryStr, "g");
-        replaceRegex = tmpRegex;
-      } catch (error) {
-        setQueryStr();
-      }
-    }
-
-    return {
-      replaceStr,
+  async mutateImage({
+    imageData,
+    mutations,
+  }: ModifiedImage): Promise<ModifiedImage> {
+    const decodedUri = this.encodingService.decodeData(imageData);
+    const { replaceRegex, replaceString } = this.glitchService.seedReplaceQuery(
+      decodedUri,
+      this.maxReplaceLength
+    );
+    const {
+      updatedImageData,
+      replacementMatches,
+    } = this.glitchService.findAndReplace(
+      decodedUri,
       replaceRegex,
-    };
-  }
+      replaceString
+    );
 
-  async mutateImage(image: ModifiedImage): Promise<ModifiedImage> {
-    const decodedUri = this.encodingService.decodeData(image.imageData);
-    const { replaceRegex, replaceStr } = this.seedQuery(decodedUri);
-
-    const replacementMatches = decodedUri.match(replaceRegex);
-    const updatedImageData = decodedUri.replace(replaceRegex, replaceStr);
     const encodedImageData = this.encodingService.encodeData(updatedImageData);
 
     const modifiedImage: ModifiedImage = {
       mutations: [
-        ...image.mutations,
+        ...mutations,
         {
           replacementQuery: replaceRegex.source,
-          replacementText: replaceStr,
-          replacementMatches: replacementMatches
-            ? replacementMatches.length
-            : 0,
+          replacementText: replaceString,
+          replacementMatches: replacementMatches,
         },
       ],
       imageData: encodedImageData,
