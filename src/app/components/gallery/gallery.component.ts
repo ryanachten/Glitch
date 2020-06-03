@@ -16,7 +16,7 @@ export class GalleryComponent implements OnInit {
   maxReplaceLength = 3;
 
   constructor(
-    private encodingService: EncodingService,
+    public encodingService: EncodingService,
     private glitchService: GlitchService
   ) {}
 
@@ -43,7 +43,6 @@ export class GalleryComponent implements OnInit {
       this.maxReplaceLength = maxReplaceLength;
       this.encodingService.dataHeader = dataHeader;
       this.epoch = epoch;
-      console.log("generatedImages", generatedImages);
     }
   }
 
@@ -100,6 +99,16 @@ export class GalleryComponent implements OnInit {
         : this.generatedImages.push(image);
     }
     this.epoch = this.epoch + 1;
+    this.saveSettings();
+  }
+
+  async redoGeneration() {
+    for (let i = 0; i < this.generationSize; i++) {
+      const existingImage = this.generatedImages[i];
+      let image = await this.undoMutation(existingImage);
+      image = await this.mutateImage(image);
+      this.generatedImages[i] = image;
+    }
     this.saveSettings();
   }
 

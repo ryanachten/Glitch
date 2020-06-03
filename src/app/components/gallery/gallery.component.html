@@ -2,9 +2,8 @@
 <p *ngIf="encodingService.mimeType">Media type of {{ encodingService.mimeType }}</p>
 <img *ngIf="this.originalImage" src={{this.originalImage}} alt="Original Image">
 <p>Current generation: {{ epoch }}</p>
-<!-- TODO: fix or remove regenerate button -->
-<button disabled="true" (click)="createGeneration()" *ngIf="generatedImages.length">Regenerate</button>
 <button (click)="previousGeneration()" *ngIf="epoch > 0">Previous Generation</button>
+<button (click)="redoGeneration()" *ngIf="epoch > 0">Regenerate</button>
 <button (click)="createGeneration()" *ngIf="originalImage">Next Generation</button>
 <button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
 <div>
