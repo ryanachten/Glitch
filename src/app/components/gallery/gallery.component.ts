@@ -66,7 +66,7 @@ export class GalleryComponent implements OnInit {
       return;
     }
     const fileReader: FileReader = new FileReader();
-    fileReader.onload = (e: ProgressEvent<FileReader>) => {
+    fileReader.onload = (e) => {
       if (!e.target.result) {
         return null;
       }
@@ -101,6 +101,40 @@ export class GalleryComponent implements OnInit {
     }
     this.epoch = this.epoch + 1;
     this.saveSettings();
+  }
+
+  async previousGeneration() {
+    for (let i = 0; i < this.generationSize; i++) {
+      const existingImage = this.generatedImages[i];
+      const image = await this.undoMutation(existingImage);
+      this.generatedImages[i] = image;
+    }
+    this.epoch = this.epoch - 1;
+    this.saveSettings();
+  }
+
+  async undoMutation({ mutations }: ModifiedImage) {
+    const decodedUri = this.encodingService.decodeData(this.originalImage);
+    const previousMutations = mutations.slice(0, -1);
+
+    let currentImageData = decodedUri;
+    await previousMutations.map(
+      async ({ replacementText, replacementQuery }) => {
+        const { updatedImageData } = this.glitchService.findAndReplace(
+          decodedUri,
+          new RegExp(replacementQuery, "g"),
+          replacementText
+        );
+        currentImageData = updatedImageData;
+      }
+    );
+
+    const encodedImageData = this.encodingService.encodeData(currentImageData);
+    const modifiedImage: ModifiedImage = {
+      mutations: previousMutations,
+      imageData: encodedImageData,
+    };
+    return modifiedImage;
   }
 
   async mutateImage({
