@@ -5,14 +5,9 @@ export type ReplacementMutation = {
 };
 
 export type SwapMutation = {
-  a: {
-    startIndex: number;
-    endIndex: number;
-  };
-  b: {
-    startIndex: number;
-    endIndex: number;
-  };
+  aIndex: number;
+  bIndex: number;
+  swapLength: number;
 };
 
 export type Mutation = ReplacementMutation | SwapMutation;

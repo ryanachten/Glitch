@@ -155,13 +155,19 @@ export class GalleryComponent implements OnInit {
       decodedUri,
       this.maxReplaceLength
     );
-    const {
-      updatedImageData,
-      replacementMatches,
-    } = this.glitchService.findAndReplace(
+    // const {
+    //   updatedImageData,
+    //   replacementMatches,
+    // } = this.glitchService.findAndReplace(
+    //   decodedUri,
+    //   replaceRegex,
+    //   replaceString
+    // );
+
+    const swapMatrix = this.glitchService.seedSwapImageMatrix(decodedUri, 100);
+    const updatedImageData = this.glitchService.swapImageMatrix(
       decodedUri,
-      replaceRegex,
-      replaceString
+      swapMatrix
     );
 
     const encodedImageData = this.encodingService.encodeData(updatedImageData);
@@ -169,11 +175,12 @@ export class GalleryComponent implements OnInit {
     const modifiedImage: ModifiedImage = {
       mutations: [
         ...mutations,
-        {
-          replacementQuery: replaceRegex.source,
-          replacementText: replaceString,
-          replacementMatches: replacementMatches,
-        },
+        swapMatrix,
+        // {
+        // replacementQuery: replaceRegex.source,
+        // replacementText: replaceString,
+        // replacementMatches: replacementMatches,
+        // },
       ],
       imageData: encodedImageData,
     };
