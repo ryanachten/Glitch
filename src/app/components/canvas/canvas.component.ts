@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import { ModifiedImage, ReplacementMutation } from "src/app/models";
+import { ModifiedImage, Mutation } from "src/app/models";
 
 @Component({
   selector: "app-canvas",
@@ -10,7 +10,7 @@ export class CanvasComponent implements OnInit {
   @Input() modifiedImage: ModifiedImage;
   @ViewChild("canvas", { static: true }) canvasElement;
   imageElement: HTMLImageElement;
-  mutation: ReplacementMutation;
+  mutation: Mutation;
   error: string;
 
   constructor() {}

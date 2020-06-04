@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ModifiedImage, Settings } from "src/app/models";
+import { ModifiedImage, Settings, ReplacementMutation } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
 
@@ -65,11 +65,11 @@ export class GalleryComponent implements OnInit {
       return;
     }
     const fileReader: FileReader = new FileReader();
-    fileReader.onload = (e) => {
-      if (!e.target.result) {
+    fileReader.onload = () => {
+      if (!fileReader.result) {
         return null;
       }
-      const encodedUri = e.target.result.toString();
+      const encodedUri = fileReader.result.toString();
       this.encodingService.setDataHeader(encodedUri);
       this.originalImage = encodedUri;
       this.createGeneration();
@@ -128,7 +128,7 @@ export class GalleryComponent implements OnInit {
 
     let currentImageData = decodedUri;
     await previousMutations.map(
-      async ({ replacementText, replacementQuery }) => {
+      async ({ replacementText, replacementQuery }: ReplacementMutation) => {
         const { updatedImageData } = this.glitchService.findAndReplace(
           decodedUri,
           new RegExp(replacementQuery, "g"),

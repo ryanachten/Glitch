@@ -4,9 +4,22 @@ export type ReplacementMutation = {
   replacementMatches: number;
 };
 
+export type SwapMutation = {
+  a: {
+    startIndex: number;
+    endIndex: number;
+  };
+  b: {
+    startIndex: number;
+    endIndex: number;
+  };
+};
+
+export type Mutation = ReplacementMutation | SwapMutation;
+
 export type ModifiedImage = {
   imageData: string;
-  mutations: Array<ReplacementMutation>;
+  mutations: Array<Mutation>;
 };
 
 export interface Settings {

@@ -1,7 +1,7 @@
 <div class="container">
     <div *ngIf="mutation">
         <p>Query: "{{mutation.replacementQuery}}"</p>
-        <p>Matches: "{{mutation.replacementMatches}}"</p>
+        <p>Matches: {{mutation.replacementMatches}}</p>
         <p>Text: "{{mutation.replacementText}}"</p>
     </div>
     <p *ngIf="error">{{error}}</p>
