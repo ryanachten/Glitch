@@ -111,25 +111,23 @@ export class GalleryComponent implements OnInit {
   }
 
   async redoGeneration() {
-    for (let i = 0; i < this.generationSize; i++) {
-      const existingImage = this.generatedImages[i];
+    this.generatedImages.map(async (existingImage, index) => {
       const { id }: Mutation = existingImage.mutations[
         existingImage.mutations.length - 1
       ];
       const Mutator: Mutator = this.glitchService.getMutatorById(id);
       let image = await this.undoMutation(existingImage);
       image = await this.mutateImage(Mutator, image);
-      this.generatedImages[i] = image;
-    }
+      this.generatedImages[index] = image;
+    });
     this.saveSettings();
   }
 
   async previousGeneration() {
-    for (let i = 0; i < this.generationSize; i++) {
-      const existingImage = this.generatedImages[i];
+    this.generatedImages.map(async (existingImage, index) => {
       const image = await this.undoMutation(existingImage);
-      this.generatedImages[i] = image;
-    }
+      this.generatedImages[index] = image;
+    });
     this.epoch = this.epoch - 1;
     this.saveSettings();
   }
