@@ -11,10 +11,6 @@
     <span>Generation size </span>
     <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />
 </div>
-<div>
-    <span>Replacement length </span>
-    <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxReplaceLength" />
-</div>
 <div class="image-wrapper">
     <app-canvas *ngFor="let image of generatedImages" [modifiedImage]="image"></app-canvas>
 </div>

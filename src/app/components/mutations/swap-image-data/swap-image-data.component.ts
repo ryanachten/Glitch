@@ -15,6 +15,7 @@ export type SwapMutation = Mutation & {
 export class SwapImageDataComponent implements Mutator {
   @Output() onCreateGeneration = new EventEmitter();
   id = MutationId.SwapImageData;
+  maxSwapLength = 6;
 
   constructor() {}
 
@@ -22,8 +23,8 @@ export class SwapImageDataComponent implements Mutator {
     this.onCreateGeneration.emit(this.id);
   }
 
-  public seed(imageData: string, maxSwapLength: number): SwapMutation {
-    const swapLength = Math.floor(Math.random() * maxSwapLength) || 1;
+  public seed(imageData: string): SwapMutation {
+    const swapLength = Math.floor(Math.random() * this.maxSwapLength) || 1;
     const aIndex = Math.floor((Math.random() * imageData.length) / 2);
     const bIndex =
       Math.floor((Math.random() * imageData.length) / 2) + imageData.length;

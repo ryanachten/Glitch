@@ -19,7 +19,6 @@ export class GalleryComponent implements OnInit {
   epoch = 0;
   generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
-  maxReplaceLength = 3;
 
   constructor(
     public encodingService: EncodingService,

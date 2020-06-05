@@ -1,1 +1,5 @@
 <button (click)="onCreateClick()">Find and replace</button>
+<div>
+    <span>Replacement length </span>
+    <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxReplaceLength" />
+</div>

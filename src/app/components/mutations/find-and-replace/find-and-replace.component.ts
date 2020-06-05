@@ -15,6 +15,7 @@ export type ReplacementMutation = Mutation & {
 export class FindAndReplaceComponent implements Mutator {
   @Output() onCreateGeneration = new EventEmitter();
   id = MutationId.FindAndReplace;
+  maxReplaceLength = 6;
 
   constructor() {}
 
@@ -22,11 +23,8 @@ export class FindAndReplaceComponent implements Mutator {
     this.onCreateGeneration.emit(this.id);
   }
 
-  public seed(
-    imageBody: string,
-    maxReplaceLength: number
-  ): ReplacementMutation {
-    const substrLength = Math.floor(Math.random() * maxReplaceLength) || 1;
+  public seed(imageBody: string): ReplacementMutation {
+    const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
 
     const replaceIndex =
       Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
