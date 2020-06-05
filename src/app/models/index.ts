@@ -17,7 +17,7 @@ export enum MutationId {
 
 export interface Mutator {
   seed: (...args) => Mutation;
-  exec: (...args) => { updatedImage: string; mutationData: any };
+  exec: (...args) => { updatedImage: string; mutationData?: any };
 }
 
 export type Mutation = ReplacementMutation | SwapMutation;
