@@ -1,5 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ModifiedImage, Settings, ReplacementMutation } from "src/app/models";
+import {
+  ModifiedImage,
+  Settings,
+  ReplacementMutation,
+  MutationId,
+  Mutator,
+  Mutation,
+} from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
 
@@ -72,7 +79,6 @@ export class GalleryComponent implements OnInit {
       const encodedUri = fileReader.result.toString();
       this.encodingService.setDataHeader(encodedUri);
       this.originalImage = encodedUri;
-      this.createGeneration();
     };
     fileReader.readAsDataURL(files[0]);
   }
@@ -83,10 +89,12 @@ export class GalleryComponent implements OnInit {
     this.saveSettings();
   }
 
-  async createGeneration() {
+  async createGeneration(mutationId: MutationId) {
+    const Mutator = this.glitchService.getMutatorById(mutationId);
     for (let i = 0; i < this.generationSize; i++) {
       const existingImage = this.generatedImages[i];
       const image = await this.mutateImage(
+        Mutator,
         // If image does not exist at index, create new one
         existingImage || {
           mutations: [],
@@ -103,86 +111,66 @@ export class GalleryComponent implements OnInit {
   }
 
   async redoGeneration() {
-    for (let i = 0; i < this.generationSize; i++) {
-      const existingImage = this.generatedImages[i];
-      let image = await this.undoMutation(existingImage);
-      image = await this.mutateImage(image);
-      this.generatedImages[i] = image;
-    }
-    this.saveSettings();
+    // for (let i = 0; i < this.generationSize; i++) {
+    //   const existingImage = this.generatedImages[i];
+    //   let image = await this.undoMutation(existingImage);
+    //   image = await this.mutateImage(image);
+    //   this.generatedImages[i] = image;
+    // }
+    // this.saveSettings();
   }
 
   async previousGeneration() {
-    for (let i = 0; i < this.generationSize; i++) {
-      const existingImage = this.generatedImages[i];
-      const image = await this.undoMutation(existingImage);
-      this.generatedImages[i] = image;
-    }
-    this.epoch = this.epoch - 1;
-    this.saveSettings();
+    // for (let i = 0; i < this.generationSize; i++) {
+    //   const existingImage = this.generatedImages[i];
+    //   const image = await this.undoMutation(existingImage);
+    //   this.generatedImages[i] = image;
+    // }
+    // this.epoch = this.epoch - 1;
+    // this.saveSettings();
   }
 
   async undoMutation({ mutations }: ModifiedImage) {
-    const decodedUri = this.encodingService.decodeData(this.originalImage);
-    const previousMutations = mutations.slice(0, -1);
-
-    let currentImageData = decodedUri;
-    await previousMutations.map(
-      async ({ replacementText, replacementQuery }: ReplacementMutation) => {
-        const { updatedImageData } = this.glitchService.findAndReplace(
-          decodedUri,
-          new RegExp(replacementQuery, "g"),
-          replacementText
-        );
-        currentImageData = updatedImageData;
-      }
-    );
-
-    const encodedImageData = this.encodingService.encodeData(currentImageData);
-    const modifiedImage: ModifiedImage = {
-      mutations: previousMutations,
-      imageData: encodedImageData,
-    };
-    return modifiedImage;
+    // const decodedUri = this.encodingService.decodeData(this.originalImage);
+    // const previousMutations = mutations.slice(0, -1);
+    // let currentImageData = decodedUri;
+    // await previousMutations.map(
+    //   async ({ replacementText, replacementQuery }: ReplacementMutation) => {
+    //     const { updatedImageData } = this.glitchService.findAndReplace(
+    //       decodedUri,
+    //       new RegExp(replacementQuery, "g"),
+    //       replacementText
+    //     );
+    //     currentImageData = updatedImageData;
+    //   }
+    // );
+    // const encodedImageData = this.encodingService.encodeData(currentImageData);
+    // const modifiedImage: ModifiedImage = {
+    //   mutations: previousMutations,
+    //   imageData: encodedImageData,
+    // };
+    // return modifiedImage;
   }
 
-  async mutateImage({
-    imageData,
-    mutations,
-  }: ModifiedImage): Promise<ModifiedImage> {
+  async mutateImage(
+    Mutator: Mutator,
+    { imageData, mutations }: ModifiedImage
+  ): Promise<ModifiedImage> {
     const decodedUri = this.encodingService.decodeData(imageData);
-    const { replaceRegex, replaceString } = this.glitchService.seedReplaceQuery(
-      decodedUri,
-      this.maxReplaceLength
-    );
-    // const {
-    //   updatedImageData,
-    //   replacementMatches,
-    // } = this.glitchService.findAndReplace(
-    //   decodedUri,
-    //   replaceRegex,
-    //   replaceString
-    // );
-
-    const swapMatrix = this.glitchService.seedSwapImageMatrix(decodedUri, 100);
-    const updatedImageData = this.glitchService.swapImageMatrix(
-      decodedUri,
-      swapMatrix
-    );
-
-    const encodedImageData = this.encodingService.encodeData(updatedImageData);
+    // TODO: maxLength param should be governed by UI
+    const mutation: Mutation = Mutator.seed(decodedUri, 10);
+    const { updatedImage, mutationData } = Mutator.exec(decodedUri, mutation);
+    const encodedImage = this.encodingService.encodeData(updatedImage);
 
     const modifiedImage: ModifiedImage = {
       mutations: [
         ...mutations,
-        swapMatrix,
-        // {
-        // replacementQuery: replaceRegex.source,
-        // replacementText: replaceString,
-        // replacementMatches: replacementMatches,
-        // },
+        {
+          ...mutation,
+          ...mutationData,
+        },
       ],
-      imageData: encodedImageData,
+      imageData: encodedImage,
     };
     return modifiedImage;
   }

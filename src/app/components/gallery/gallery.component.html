@@ -4,7 +4,8 @@
 <p>Current generation: {{ epoch }}</p>
 <button (click)="previousGeneration()" *ngIf="epoch > 0">Previous Generation</button>
 <button (click)="redoGeneration()" *ngIf="epoch > 0">Regenerate</button>
-<button (click)="createGeneration()" *ngIf="originalImage">Next Generation</button>
+<button (click)="createGeneration('FindAndReplace')" *ngIf="originalImage">Find and replace</button>
+<button (click)="createGeneration('SwapImageData')" *ngIf="originalImage">Swap image data</button>
 <button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
 <div>
     <span>Generation size </span>
