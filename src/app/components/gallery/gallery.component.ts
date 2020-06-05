@@ -133,26 +133,15 @@ export class GalleryComponent implements OnInit {
   async undoMutation({ mutations }: ModifiedImage) {
     const decodedUri = this.encodingService.decodeData(this.originalImage);
     const previousMutations = mutations.slice(0, -1);
+
     let currentImageData = decodedUri;
-    await previousMutations.map(
-      async (mutation: Mutation) => {
-        const mutationId: MutationId = mutation.id;
-        // const { updatedImageData } = this.glitchService.findAndReplace(
-        //   decodedUri,
-        //   new RegExp(replacementQuery, "g"),
-        //   replacementText
-        // );
-        // currentImageData = updatedImageData;
-      }
-      // async ({ replacementText, replacementQuery }: ReplacementMutation) => {
-      //   const { updatedImageData } = this.glitchService.findAndReplace(
-      //     decodedUri,
-      //     new RegExp(replacementQuery, "g"),
-      //     replacementText
-      //   );
-      //   currentImageData = updatedImageData;
-      // }
-    );
+    previousMutations.map(async (mutation: Mutation) => {
+      const mutationId: MutationId = mutation.id;
+      const Mutator: Mutator = this.glitchService.getMutatorById(mutationId);
+      const { updatedImage } = Mutator.exec(currentImageData, mutation);
+      currentImageData = updatedImage;
+    });
+
     const encodedImageData = this.encodingService.encodeData(currentImageData);
     const modifiedImage: ModifiedImage = {
       mutations: previousMutations,
