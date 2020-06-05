@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { Mutator, Mutation, MutationId } from "src/app/models";
 
 export type ReplacementMutation = Mutation & {
@@ -12,10 +12,15 @@ export type ReplacementMutation = Mutation & {
   templateUrl: "./find-and-replace.component.html",
   styleUrls: ["./find-and-replace.component.scss"],
 })
-export class FindAndReplaceComponent implements OnInit, Mutator {
+export class FindAndReplaceComponent implements Mutator {
+  @Output() onCreateGeneration = new EventEmitter();
+  id = MutationId.FindAndReplace;
+
   constructor() {}
 
-  ngOnInit() {}
+  onCreateClick() {
+    this.onCreateGeneration.emit(this.id);
+  }
 
   public seed(
     imageBody: string,
@@ -48,7 +53,7 @@ export class FindAndReplaceComponent implements OnInit, Mutator {
     }
 
     return {
-      id: MutationId.FindAndReplace,
+      id: this.id,
       replacementText,
       replacementQuery: replaceRegex.source,
     };

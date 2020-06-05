@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { Mutator, Mutation, MutationId } from "src/app/models";
 
 export type SwapMutation = Mutation & {
@@ -12,10 +12,15 @@ export type SwapMutation = Mutation & {
   templateUrl: "./swap-image-data.component.html",
   styleUrls: ["./swap-image-data.component.scss"],
 })
-export class SwapImageDataComponent implements OnInit, Mutator {
+export class SwapImageDataComponent implements Mutator {
+  @Output() onCreateGeneration = new EventEmitter();
+  id = MutationId.SwapImageData;
+
   constructor() {}
 
-  ngOnInit() {}
+  onCreateClick() {
+    this.onCreateGeneration.emit(this.id);
+  }
 
   public seed(imageData: string, maxSwapLength: number): SwapMutation {
     const swapLength = Math.floor(Math.random() * maxSwapLength) || 1;
@@ -23,7 +28,7 @@ export class SwapImageDataComponent implements OnInit, Mutator {
     const bIndex =
       Math.floor((Math.random() * imageData.length) / 2) + imageData.length;
     return {
-      id: MutationId.SwapImageData,
+      id: this.id,
       aIndex,
       bIndex,
       swapLength,

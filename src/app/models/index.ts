@@ -5,6 +5,7 @@ export enum MutationId {
 
 // TODO: maxLength should be more generic
 export interface Mutator {
+  id: MutationId;
   seed: (imageData: string, maxLength: number) => Mutation;
   exec: (
     inputImage: string,
