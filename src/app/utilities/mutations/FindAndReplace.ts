@@ -1,6 +1,6 @@
-import { Mutator } from "src/app/models";
+import { Mutator, Mutation, MutationId } from "src/app/models";
 
-export type ReplacementMutation = {
+export type ReplacementMutation = Mutation & {
   replacementQuery: string;
   replacementText: string;
   replacementMatches?: number;
@@ -40,6 +40,7 @@ export class FindAndReplace implements Mutator {
     }
 
     return {
+      id: MutationId.FindAndReplace,
       replacementText,
       replacementQuery: replaceRegex.source,
     };

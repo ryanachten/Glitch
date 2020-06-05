@@ -1,6 +1,6 @@
-import { Mutator } from "src/app/models";
+import { Mutator, Mutation, MutationId } from "src/app/models";
 
-export type SwapMutation = {
+export type SwapMutation = Mutation & {
   aIndex: number;
   bIndex: number;
   swapLength: number;
@@ -15,6 +15,7 @@ export class SwapImageData implements Mutator {
     const bIndex =
       Math.floor((Math.random() * imageData.length) / 2) + imageData.length;
     return {
+      id: MutationId.SwapImageData,
       aIndex,
       bIndex,
       swapLength,

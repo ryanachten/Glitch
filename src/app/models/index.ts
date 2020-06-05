@@ -1,6 +1,3 @@
-import { ReplacementMutation } from "../utilities/mutations/FindAndReplace";
-import { SwapMutation } from "../utilities/mutations/SwapImageData";
-
 export enum MutationId {
   FindAndReplace = "FindAndReplace",
   SwapImageData = "SwapImageData",
@@ -15,7 +12,9 @@ export interface Mutator {
   ) => { updatedImage: string; mutationData?: any };
 }
 
-export type Mutation = ReplacementMutation | SwapMutation;
+export interface Mutation {
+  id: MutationId;
+}
 
 export type ModifiedImage = {
   imageData: string;
