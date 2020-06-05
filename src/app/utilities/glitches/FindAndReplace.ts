@@ -39,9 +39,13 @@ export class FindAndReplace implements Mutator {
     };
   }
 
-  public exec(imageData: string, replaceRegex: RegExp, replaceStr: string) {
+  public exec(
+    imageData: string,
+    { replacementQuery, replacementText }: ReplacementMutation
+  ) {
+    const replaceRegex: RegExp = new RegExp(replacementQuery, "g");
     const replacementMatches = imageData.match(replaceRegex);
-    const updatedImage = imageData.replace(replaceRegex, replaceStr);
+    const updatedImage = imageData.replace(replaceRegex, replacementText);
     return {
       updatedImage,
       mutationData: {
