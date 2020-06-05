@@ -1,7 +1,7 @@
 export type ReplacementMutation = {
   replacementQuery: string;
   replacementText: string;
-  replacementMatches: number;
+  replacementMatches?: number;
 };
 
 export type SwapMutation = {
@@ -9,6 +9,16 @@ export type SwapMutation = {
   bIndex: number;
   swapLength: number;
 };
+
+export enum MutationId {
+  FindAndReplace = "FindAndReplace",
+  SwapImageData = "SwapImageData",
+}
+
+export interface Mutator {
+  seed: (...args) => Mutation;
+  exec: (...args) => { updatedImage: string; mutationData: any };
+}
 
 export type Mutation = ReplacementMutation | SwapMutation;
 

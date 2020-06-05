@@ -1,18 +1,17 @@
-export class FindAndReplace {
+import { Mutator, ReplacementMutation } from "src/app/models";
+
+export class FindAndReplace implements Mutator {
   constructor() {}
 
-  static seed(
+  public seed(
     imageBody: string,
     maxReplaceLength: number
-  ): {
-    replaceString: string;
-    replaceRegex: RegExp;
-  } {
+  ): ReplacementMutation {
     const substrLength = Math.floor(Math.random() * maxReplaceLength) || 1;
 
     const replaceIndex =
       Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-    const replaceString = imageBody.substr(replaceIndex, substrLength);
+    const replacementText = imageBody.substr(replaceIndex, substrLength);
 
     let queryStr: string;
     const setQueryStr = () => {
@@ -35,24 +34,19 @@ export class FindAndReplace {
     }
 
     return {
-      replaceString,
-      replaceRegex,
+      replacementText,
+      replacementQuery: replaceRegex.source,
     };
   }
 
-  static exec(
-    imageData: string,
-    replaceRegex: RegExp,
-    replaceStr: string
-  ): {
-    replacementMatches: number;
-    updatedImageData: string;
-  } {
+  public exec(imageData: string, replaceRegex: RegExp, replaceStr: string) {
     const replacementMatches = imageData.match(replaceRegex);
-    const updatedImageData = imageData.replace(replaceRegex, replaceStr);
+    const updatedImage = imageData.replace(replaceRegex, replaceStr);
     return {
-      updatedImageData,
-      replacementMatches: replacementMatches ? replacementMatches.length : 0,
+      updatedImage,
+      mutationData: {
+        replacementMatches: replacementMatches ? replacementMatches.length : 0,
+      },
     };
   }
 }
