@@ -1,3 +1,4 @@
+import { Component, OnInit } from "@angular/core";
 import { Mutator, Mutation, MutationId } from "src/app/models";
 
 export type ReplacementMutation = Mutation & {
@@ -6,8 +7,15 @@ export type ReplacementMutation = Mutation & {
   replacementMatches?: number;
 };
 
-export class FindAndReplace implements Mutator {
+@Component({
+  selector: "app-find-and-replace",
+  templateUrl: "./find-and-replace.component.html",
+  styleUrls: ["./find-and-replace.component.scss"],
+})
+export class FindAndReplaceComponent implements OnInit, Mutator {
   constructor() {}
+
+  ngOnInit() {}
 
   public seed(
     imageBody: string,

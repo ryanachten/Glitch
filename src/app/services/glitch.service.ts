@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { SwapImageData } from "../utilities/mutations/SwapImageData";
-import { FindAndReplace } from "../utilities/mutations/FindAndReplace";
 import { MutationId, Mutator } from "../models";
+import { FindAndReplaceComponent } from "../components/mutations/find-and-replace/find-and-replace.component";
+import { SwapImageDataComponent } from "../components/mutations/swap-image-data/swap-image-data.component";
 
 @Injectable({
   providedIn: "root",
 })
 export class GlitchService {
   mutatorHash = {
-    [MutationId.FindAndReplace]: FindAndReplace,
-    [MutationId.SwapImageData]: SwapImageData,
+    [MutationId.FindAndReplace]: FindAndReplaceComponent,
+    [MutationId.SwapImageData]: SwapImageDataComponent,
   };
 
   constructor() {}
