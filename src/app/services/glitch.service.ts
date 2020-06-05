@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { SwapImageData } from "../utilities/glitches/SwapImageData";
-import { FindAndReplace } from "../utilities/glitches/FindAndReplace";
+import { SwapImageData } from "../utilities/mutations/SwapImageData";
+import { FindAndReplace } from "../utilities/mutations/FindAndReplace";
 import { MutationId, Mutator } from "../models";
 
 @Injectable({

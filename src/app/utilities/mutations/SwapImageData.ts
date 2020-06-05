@@ -1,4 +1,10 @@
-import { SwapMutation, Mutator } from "src/app/models";
+import { Mutator } from "src/app/models";
+
+export type SwapMutation = {
+  aIndex: number;
+  bIndex: number;
+  swapLength: number;
+};
 
 export class SwapImageData implements Mutator {
   constructor() {}

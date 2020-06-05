@@ -1,4 +1,10 @@
-import { Mutator, ReplacementMutation } from "src/app/models";
+import { Mutator } from "src/app/models";
+
+export type ReplacementMutation = {
+  replacementQuery: string;
+  replacementText: string;
+  replacementMatches?: number;
+};
 
 export class FindAndReplace implements Mutator {
   constructor() {}

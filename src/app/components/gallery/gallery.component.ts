@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import {
   ModifiedImage,
   Settings,
-  ReplacementMutation,
   MutationId,
   Mutator,
   Mutation,

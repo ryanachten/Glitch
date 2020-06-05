@@ -1,14 +1,5 @@
-export type ReplacementMutation = {
-  replacementQuery: string;
-  replacementText: string;
-  replacementMatches?: number;
-};
-
-export type SwapMutation = {
-  aIndex: number;
-  bIndex: number;
-  swapLength: number;
-};
+import { ReplacementMutation } from "../utilities/mutations/FindAndReplace";
+import { SwapMutation } from "../utilities/mutations/SwapImageData";
 
 export enum MutationId {
   FindAndReplace = "FindAndReplace",
