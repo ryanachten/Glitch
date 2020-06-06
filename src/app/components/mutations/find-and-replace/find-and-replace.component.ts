@@ -14,13 +14,16 @@ export type ReplacementMutation = Mutation & {
 })
 export class FindAndReplaceComponent implements Mutator {
   @Output() onCreateGeneration = new EventEmitter();
-  id = MutationId.FindAndReplace;
+  mutation: Mutation = {
+    id: MutationId.FindAndReplace,
+    name: "Find and replace",
+  };
   maxReplaceLength = 6;
 
   constructor() {}
 
   onCreateClick() {
-    this.onCreateGeneration.emit(this.id);
+    this.onCreateGeneration.emit(this.mutation.id);
   }
 
   public seed(imageBody: string): ReplacementMutation {
@@ -51,7 +54,8 @@ export class FindAndReplaceComponent implements Mutator {
     }
 
     return {
-      id: this.id,
+      id: this.mutation.id,
+      name: this.mutation.name,
       replacementText,
       replacementQuery: replaceRegex.source,
     };

@@ -2,6 +2,7 @@
     <canvas #canvas></canvas>
     <div class="metadata">
         <!-- Find and Replace metadata-->
+        <p>{{mutation?.name}}</p>
         <p *ngIf="mutation?.replacementQuery">Query: "{{mutation.replacementQuery}}"</p>
         <p *ngIf="mutation?.replacementMatches">Matches: {{mutation.replacementMatches}}</p>
         <p *ngIf="mutation?.replacementText">Text: "{{mutation.replacementText}}"</p>

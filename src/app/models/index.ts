@@ -4,7 +4,7 @@ export enum MutationId {
 }
 
 export interface Mutator {
-  id: MutationId;
+  mutation: Mutation;
   seed: (imageData: string) => Mutation;
   exec: (
     inputImage: string,
@@ -14,6 +14,7 @@ export interface Mutator {
 
 export interface Mutation {
   id: MutationId;
+  name: string;
 }
 
 export type ModifiedImage = {
