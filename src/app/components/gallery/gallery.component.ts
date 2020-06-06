@@ -12,7 +12,7 @@ import { GlitchService } from "src/app/services/glitch.service";
 @Component({
   selector: "app-gallery",
   templateUrl: "./gallery.component.html",
-  styleUrls: ["./gallery.component.scss"],
+  styleUrls: ["./gallery.component.less"],
 })
 export class GalleryComponent implements OnInit {
   originalImage: string;

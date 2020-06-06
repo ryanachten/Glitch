@@ -4,7 +4,7 @@ import { ModifiedImage, Mutation } from "src/app/models";
 @Component({
   selector: "app-canvas",
   templateUrl: "./canvas.component.html",
-  styleUrls: ["./canvas.component.scss"],
+  styleUrls: ["./canvas.component.less"],
 })
 export class CanvasComponent implements OnInit {
   @Input() modifiedImage: ModifiedImage;

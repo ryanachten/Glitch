@@ -10,7 +10,7 @@ export type SwapMutation = Mutation & {
 @Component({
   selector: "app-swap-image-data",
   templateUrl: "./swap-image-data.component.html",
-  styleUrls: ["./swap-image-data.component.scss"],
+  styleUrls: ["./swap-image-data.component.less"],
 })
 export class SwapImageDataComponent implements Mutator {
   @Output() onCreateGeneration = new EventEmitter();

@@ -10,7 +10,7 @@ export type ReplacementMutation = Mutation & {
 @Component({
   selector: "app-find-and-replace",
   templateUrl: "./find-and-replace.component.html",
-  styleUrls: ["./find-and-replace.component.scss"],
+  styleUrls: ["./find-and-replace.component.less"],
 })
 export class FindAndReplaceComponent implements Mutator {
   @Output() onCreateGeneration = new EventEmitter();
