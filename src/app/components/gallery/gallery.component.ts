@@ -36,7 +36,6 @@ export class GalleryComponent implements OnInit {
         originalImage,
         generationSize,
         generatedImages,
-        maxReplaceLength,
         epoch,
         mimeType,
         dataHeader,
@@ -45,7 +44,6 @@ export class GalleryComponent implements OnInit {
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
       this.encodingService.mimeType = mimeType;
-      this.maxReplaceLength = maxReplaceLength;
       this.encodingService.dataHeader = dataHeader;
       this.epoch = epoch;
     }
@@ -56,7 +54,6 @@ export class GalleryComponent implements OnInit {
       originalImage: this.originalImage,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
-      maxReplaceLength: this.maxReplaceLength,
       dataHeader: this.encodingService.dataHeader,
       mimeType: this.encodingService.mimeType,
       epoch: this.epoch,
@@ -157,7 +154,7 @@ export class GalleryComponent implements OnInit {
   ): Promise<ModifiedImage> {
     const decodedUri = this.encodingService.decodeData(imageData);
     // TODO: maxLength param should be governed by UI
-    const mutation: Mutation = Mutator.seed(decodedUri, 10);
+    const mutation: Mutation = Mutator.seed(decodedUri);
     const { updatedImage, mutationData } = Mutator.exec(decodedUri, mutation);
     const encodedImage = this.encodingService.encodeData(updatedImage);
 

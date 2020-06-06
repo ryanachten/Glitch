@@ -26,7 +26,6 @@ export interface Settings {
   epoch: number;
   generationSize: number;
   generatedImages: Array<ModifiedImage>;
-  maxReplaceLength: number;
   dataHeader: string;
   mimeType: string;
 }
