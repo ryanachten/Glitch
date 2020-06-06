@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 import { NzButtonModule } from "ng-zorro-antd/button";
+import { NzFormModule } from "ng-zorro-antd/form";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -34,6 +36,8 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     NzButtonModule,
+    NzFormModule,
+    NzInputNumberModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

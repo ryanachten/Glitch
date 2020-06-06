@@ -1,16 +1,20 @@
-<input name="image" type="file" (change)="uploadImage($event)" />
-<p *ngIf="encodingService.mimeType">Media type of {{ encodingService.mimeType }}</p>
 <img *ngIf="this.originalImage" src={{this.originalImage}} alt="Original Image">
-<p>Current generation: {{ epoch }}</p>
-<button (click)="previousGeneration()" *ngIf="epoch > 0">Previous Generation</button>
-<button (click)="redoGeneration()" *ngIf="epoch > 0">Regenerate</button>
+<form nz-form>
+    <input name="image" type="file" (change)="uploadImage($event)" />
+    <p *ngIf="encodingService.mimeType">Media type of {{ encodingService.mimeType }}</p>
+    <p>Current generation: {{ epoch }}</p>
+    <nz-form-item>
+        <nz-form-label nzFor="generationSize">Generation size</nz-form-label>
+        <nz-input-number name="generationSize" [nzMax]="10" [nzMin]="1" [(ngModel)]="generationSize">
+        </nz-input-number>
+    </nz-form-item>
+    <button nz-button (click)="previousGeneration()" *ngIf="epoch > 0">Previous Generation</button>
+    <button nz-button (click)="redoGeneration()" *ngIf="epoch > 0">Regenerate</button>
+    <button nz-button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
+</form>
+
 <app-find-and-replace *ngIf="originalImage" (onCreateGeneration)="this.createGeneration($event)"></app-find-and-replace>
 <app-swap-image-data *ngIf="originalImage" (onCreateGeneration)="this.createGeneration($event)"></app-swap-image-data>
-<button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
-<div>
-    <span>Generation size </span>
-    <input name="generationSize" type="number" max="10" min="1" value="3" [(ngModel)]="generationSize" />
-</div>
 <div class="image-wrapper">
     <app-canvas *ngFor="let image of generatedImages" [modifiedImage]="image"></app-canvas>
 </div>

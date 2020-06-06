@@ -1,5 +1,8 @@
-<button (click)="onCreateClick()">Swap Image Data</button>
-<div>
-    <span>Swap length </span>
-    <input name="maxReplaceLength" type="number" max="10" min="1" value="3" [(ngModel)]="maxSwapLength" />
-</div>
+<form nz-form>
+    <nz-form-item>
+        <nz-form-label nzFor="maxReplaceLength">Swap length</nz-form-label>
+        <nz-input-number name="maxReplaceLength" [nzMax]="10" [nzMin]="1" [(ngModel)]="maxSwapLength">
+        </nz-input-number>
+    </nz-form-item>
+    <button nz-button (click)="onCreateClick()">Swap Image Data</button>
+</form>
