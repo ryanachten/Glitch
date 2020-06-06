@@ -14,8 +14,11 @@
     <button nz-button (click)="resetEvolution()" *ngIf="generatedImages.length">Reset Evolution</button>
 </form>
 
-<app-find-and-replace *ngIf="originalImage" (onCreateGeneration)="this.createGeneration($event)"></app-find-and-replace>
-<app-swap-image-data *ngIf="originalImage" (onCreateGeneration)="this.createGeneration($event)"></app-swap-image-data>
+<app-find-and-replace [maxLength]="originalImage.length / 2" *ngIf="originalImage"
+    (onCreateGeneration)="this.createGeneration($event)"></app-find-and-replace>
+<app-swap-image-data [maxLength]="originalImage.length / 2" *ngIf="originalImage"
+    (onCreateGeneration)="this.createGeneration($event)">
+</app-swap-image-data>
 <div class="image-wrapper">
     <app-canvas *ngFor="let image of generatedImages" [modifiedImage]="image"></app-canvas>
 </div>

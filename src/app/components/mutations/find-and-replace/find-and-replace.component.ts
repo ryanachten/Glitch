@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from "@angular/core";
+import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
 import { Mutator, Mutation, MutationId } from "src/app/models";
+import { GlitchService } from "src/app/services/glitch.service";
 
 export type ReplacementMutation = Mutation & {
   replacementQuery: string;
@@ -12,22 +13,27 @@ export type ReplacementMutation = Mutation & {
   templateUrl: "./find-and-replace.component.html",
   styleUrls: ["./find-and-replace.component.less"],
 })
-export class FindAndReplaceComponent implements Mutator {
+export class FindAndReplaceComponent implements OnInit, Mutator {
+  @Input() maxLength: number;
   @Output() onCreateGeneration = new EventEmitter();
+
   mutation: Mutation = {
     id: MutationId.FindAndReplace,
     name: "Find and replace",
   };
-  maxReplaceLength = 6;
 
-  constructor() {}
+  constructor(public glitch: GlitchService) {}
+
+  ngOnInit() {}
 
   onCreateClick() {
     this.onCreateGeneration.emit(this.mutation.id);
   }
 
   public seed(imageBody: string): ReplacementMutation {
-    const substrLength = Math.floor(Math.random() * this.maxReplaceLength) || 1;
+    const { maxReplaceLength } = this.glitch.settings[this.mutation.id];
+
+    const substrLength = Math.floor(Math.random() * maxReplaceLength) || 1;
 
     const replaceIndex =
       Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
