@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Output, Input, OnInit } from "@angular/core";
 import { Mutator, Mutation, MutationId } from "src/app/models";
-import { GlitchService } from "src/app/services/glitch.service";
+import { SettingsService } from "src/app/services/settings.service";
 
 export type SwapMutation = Mutation & {
   aIndex: number;
   bIndex: number;
   swapLength: number;
+};
+
+type Settings = {
+  maxSwapLength: number;
 };
 
 @Component({
@@ -21,7 +25,7 @@ export class SwapImageDataComponent implements OnInit, Mutator {
     name: "Swap Image Data",
   };
 
-  constructor(public glitch: GlitchService) {}
+  constructor(public settings: SettingsService) {}
 
   ngOnInit() {}
 
@@ -30,7 +34,9 @@ export class SwapImageDataComponent implements OnInit, Mutator {
   }
 
   public seed(imageData: string): SwapMutation {
-    const { maxSwapLength } = this.glitch.settings[this.mutation.id];
+    const { maxSwapLength } = this.settings.mutations[
+      this.mutation.id
+    ] as Settings;
     const swapLength = Math.floor(Math.random() * maxSwapLength) || 1;
 
     const aIndex = Math.floor((Math.random() * imageData.length) / 2);

@@ -2,7 +2,7 @@
     <nz-form-item>
         <nz-form-label nzFor="maxReplaceLength">Replacement length</nz-form-label>
         <nz-input-number id="maxReplaceLength" name="maxReplaceLength"
-            [(ngModel)]="glitch.settings[mutation.id].maxReplaceLength">
+            [(ngModel)]="settings.mutations[mutation.id].maxReplaceLength">
         </nz-input-number>
     </nz-form-item>
     <button nz-button (click)="onCreateClick()">Find and replace</button>
