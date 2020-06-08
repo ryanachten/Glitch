@@ -1,13 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  ModifiedImage,
-  Settings,
-  MutationId,
-  Mutator,
-  Mutation,
-} from "src/app/models";
+import { ModifiedImage, MutationId, Mutator, Mutation } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
+import { SettingsService } from "src/app/services/settings.service";
 
 @Component({
   selector: "app-gallery",
@@ -15,51 +10,13 @@ import { GlitchService } from "src/app/services/glitch.service";
   styleUrls: ["./gallery.component.less"],
 })
 export class GalleryComponent implements OnInit {
-  originalImage: string;
-  epoch = 0;
-  generationSize = 6;
-  generatedImages: Array<ModifiedImage> = [];
-
   constructor(
+    public settings: SettingsService,
     public encodingService: EncodingService,
     private glitchService: GlitchService
   ) {}
 
-  ngOnInit() {
-    this.loadSettings();
-  }
-
-  loadSettings() {
-    const settings = localStorage.getItem("settings");
-    if (settings) {
-      const {
-        originalImage,
-        generationSize,
-        generatedImages,
-        epoch,
-        mimeType,
-        dataHeader,
-      }: Settings = JSON.parse(settings);
-      this.originalImage = originalImage;
-      this.generationSize = generationSize;
-      this.generatedImages = generatedImages;
-      this.encodingService.mimeType = mimeType;
-      this.encodingService.dataHeader = dataHeader;
-      this.epoch = epoch;
-    }
-  }
-
-  saveSettings() {
-    const settings: Settings = {
-      originalImage: this.originalImage,
-      generationSize: this.generationSize,
-      generatedImages: this.generatedImages,
-      dataHeader: this.encodingService.dataHeader,
-      mimeType: this.encodingService.mimeType,
-      epoch: this.epoch,
-    };
-    localStorage.setItem("settings", JSON.stringify(settings));
-  }
+  ngOnInit() {}
 
   uploadImage(event) {
     const files = event.target.files;
@@ -73,63 +30,65 @@ export class GalleryComponent implements OnInit {
       }
       const encodedUri = fileReader.result.toString();
       this.encodingService.setDataHeader(encodedUri);
-      this.originalImage = encodedUri;
+      this.settings.originalImage = encodedUri;
     };
     fileReader.readAsDataURL(files[0]);
   }
 
   resetEvolution() {
-    this.generatedImages = [];
-    this.epoch = 0;
-    this.saveSettings();
+    this.settings.generatedImages = [];
+    this.settings.epoch = 0;
+    this.settings.save();
   }
 
   async createGeneration(mutationId: MutationId) {
     const Mutator = this.glitchService.getMutatorById(mutationId);
-    for (let i = 0; i < this.generationSize; i++) {
-      const existingImage = this.generatedImages[i];
+    for (let i = 0; i < this.settings.generationSize; i++) {
+      const existingImage = this.settings.generatedImages[i];
       const image = await this.mutateImage(
         Mutator,
         // If image does not exist at index, create new one
         existingImage || {
           mutations: [],
-          imageData: this.originalImage,
+          imageData: this.settings.originalImage,
         }
       );
       // If image already exists, replace it with updated img
       existingImage
-        ? (this.generatedImages[i] = image)
-        : this.generatedImages.push(image);
+        ? (this.settings.generatedImages[i] = image)
+        : this.settings.generatedImages.push(image);
     }
 
-    this.epoch = this.epoch + 1;
-    this.saveSettings();
+    this.settings.epoch = this.settings.epoch + 1;
+    this.settings.save();
   }
 
   async redoGeneration() {
-    this.generatedImages.map(async (existingImage, index) => {
+    this.settings.generatedImages.map(async (existingImage, index) => {
       const { id }: Mutation = existingImage.mutations[
         existingImage.mutations.length - 1
       ];
       const Mutator: Mutator = this.glitchService.getMutatorById(id);
       let image = await this.undoMutation(existingImage);
       image = await this.mutateImage(Mutator, image);
-      this.generatedImages[index] = image;
+      this.settings.generatedImages[index] = image;
     });
-    this.saveSettings();
+    this.settings.save();
   }
 
   async previousGeneration() {
-    this.generatedImages.map(async (existingImage, index) => {
+    this.settings.generatedImages.map(async (existingImage, index) => {
       const image = await this.undoMutation(existingImage);
-      this.generatedImages[index] = image;
+      this.settings.generatedImages[index] = image;
     });
-    this.epoch = this.epoch - 1;
-    this.saveSettings();
+    this.settings.epoch = this.settings.epoch - 1;
+    this.settings.save();
   }
 
   async undoMutation({ mutations }: ModifiedImage) {
-    const decodedUri = this.encodingService.decodeData(this.originalImage);
+    const decodedUri = this.encodingService.decodeData(
+      this.settings.originalImage
+    );
     const previousMutations = mutations.slice(0, -1);
 
     let currentImageData = decodedUri;
