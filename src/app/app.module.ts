@@ -18,6 +18,8 @@ import { CanvasComponent } from "./components/canvas/canvas.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
 import { FindAndReplaceComponent } from "./components/mutations/find-and-replace/find-and-replace.component";
 import { SwapImageDataComponent } from "./components/mutations/swap-image-data/swap-image-data.component";
+import { RouterModule } from "@angular/router";
+import { routes } from "./routes";
 
 registerLocaleData(en);
 
@@ -36,6 +38,7 @@ registerLocaleData(en);
     NgZorroAntdModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(routes),
     NzButtonModule,
     NzFormModule,
     NzInputNumberModule,
