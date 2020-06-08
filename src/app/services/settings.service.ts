@@ -20,7 +20,7 @@ export class SettingsService {
     },
   };
 
-  constructor(private encodingService: EncodingService) {
+  constructor(private encoding: EncodingService) {
     this.load();
   }
 
@@ -38,8 +38,8 @@ export class SettingsService {
       this.originalImage = originalImage;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
-      this.encodingService.mimeType = mimeType;
-      this.encodingService.dataHeader = dataHeader;
+      this.encoding.mimeType = mimeType;
+      this.encoding.dataHeader = dataHeader;
       this.epoch = epoch;
     }
   }
@@ -49,8 +49,8 @@ export class SettingsService {
       originalImage: this.originalImage,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
-      dataHeader: this.encodingService.dataHeader,
-      mimeType: this.encodingService.mimeType,
+      dataHeader: this.encoding.dataHeader,
+      mimeType: this.encoding.mimeType,
       epoch: this.epoch,
     };
     localStorage.setItem("settings", JSON.stringify(settings));

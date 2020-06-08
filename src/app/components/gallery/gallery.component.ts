@@ -12,8 +12,8 @@ import { SettingsService } from "src/app/services/settings.service";
 export class GalleryComponent implements OnInit {
   constructor(
     public settings: SettingsService,
-    public encodingService: EncodingService,
-    private glitchService: GlitchService
+    public encoding: EncodingService,
+    private glitch: GlitchService
   ) {}
 
   ngOnInit() {}
@@ -29,7 +29,7 @@ export class GalleryComponent implements OnInit {
         return null;
       }
       const encodedUri = fileReader.result.toString();
-      this.encodingService.setDataHeader(encodedUri);
+      this.encoding.setDataHeader(encodedUri);
       this.settings.originalImage = encodedUri;
     };
     fileReader.readAsDataURL(files[0]);
@@ -42,7 +42,7 @@ export class GalleryComponent implements OnInit {
   }
 
   async createGeneration(mutationId: MutationId) {
-    const Mutator = this.glitchService.getMutatorById(mutationId);
+    const Mutator = this.glitch.getMutatorById(mutationId);
     for (let i = 0; i < this.settings.generationSize; i++) {
       const existingImage = this.settings.generatedImages[i];
       const image = await this.mutateImage(
@@ -68,7 +68,7 @@ export class GalleryComponent implements OnInit {
       const { id }: Mutation = existingImage.mutations[
         existingImage.mutations.length - 1
       ];
-      const Mutator: Mutator = this.glitchService.getMutatorById(id);
+      const Mutator: Mutator = this.glitch.getMutatorById(id);
       let image = await this.undoMutation(existingImage);
       image = await this.mutateImage(Mutator, image);
       this.settings.generatedImages[index] = image;
@@ -86,20 +86,18 @@ export class GalleryComponent implements OnInit {
   }
 
   async undoMutation({ mutations }: ModifiedImage) {
-    const decodedUri = this.encodingService.decodeData(
-      this.settings.originalImage
-    );
+    const decodedUri = this.encoding.decodeData(this.settings.originalImage);
     const previousMutations = mutations.slice(0, -1);
 
     let currentImageData = decodedUri;
     previousMutations.map(async (mutation: Mutation) => {
       const mutationId: MutationId = mutation.id;
-      const Mutator: Mutator = this.glitchService.getMutatorById(mutationId);
+      const Mutator: Mutator = this.glitch.getMutatorById(mutationId);
       const { updatedImage } = Mutator.exec(currentImageData, mutation);
       currentImageData = updatedImage;
     });
 
-    const encodedImageData = this.encodingService.encodeData(currentImageData);
+    const encodedImageData = this.encoding.encodeData(currentImageData);
     const modifiedImage: ModifiedImage = {
       mutations: previousMutations,
       imageData: encodedImageData,
@@ -111,11 +109,10 @@ export class GalleryComponent implements OnInit {
     Mutator: Mutator,
     { imageData, mutations }: ModifiedImage
   ): Promise<ModifiedImage> {
-    const decodedUri = this.encodingService.decodeData(imageData);
-    // TODO: maxLength param should be governed by UI
+    const decodedUri = this.encoding.decodeData(imageData);
     const mutation: Mutation = Mutator.seed(decodedUri);
     const { updatedImage, mutationData } = Mutator.exec(decodedUri, mutation);
-    const encodedImage = this.encodingService.encodeData(updatedImage);
+    const encodedImage = this.encoding.encodeData(updatedImage);
 
     const modifiedImage: ModifiedImage = {
       mutations: [

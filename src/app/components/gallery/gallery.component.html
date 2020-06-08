@@ -2,7 +2,7 @@
 <form nz-form>
     <!-- TODO: use upload component when API integration has been developed -->
     <input name="image" type="file" (change)="uploadImage($event)" />
-    <p nz-typography *ngIf="encodingService.mimeType">Media type of {{ encodingService.mimeType }}</p>
+    <p nz-typography *ngIf="encoding.mimeType">Media type of {{ encoding.mimeType }}</p>
     <p nz-typography>Current generation: {{ settings.epoch }}</p>
     <nz-form-item>
         <nz-form-label nzFor="generationSize">Generation size</nz-form-label>
