@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import { ModifiedImage, Mutation } from "src/app/models";
+import { ModifiedImage, Mutation, MutationId } from "src/app/models";
+import { ReplacementMutation } from "../mutations/find-and-replace/find-and-replace.component";
+import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.component";
 
 @Component({
   selector: "app-canvas",
@@ -10,13 +12,32 @@ export class CanvasComponent implements OnInit {
   @Input() modifiedImage: ModifiedImage;
   @ViewChild("canvas", { static: true }) canvasElement;
   imageElement: HTMLImageElement;
-  mutation: Mutation;
   error: string;
+
+  // Mutations
+  findAndReplace: ReplacementMutation;
+  swapImageData: SwapMutation;
 
   constructor() {}
 
   ngOnInit() {
+    this.setMutationById();
     this.renderImage();
+  }
+
+  setMutationById() {
+    const mutations = this.modifiedImage.mutations;
+    const activeMutation: Mutation = mutations[mutations.length - 1];
+    switch (activeMutation.id) {
+      case MutationId.FindAndReplace:
+        return (this.findAndReplace = activeMutation as ReplacementMutation);
+
+      case MutationId.SwapImageData:
+        return (this.swapImageData = activeMutation as SwapMutation);
+
+      default:
+        break;
+    }
   }
 
   loadImage() {
@@ -39,8 +60,6 @@ export class CanvasComponent implements OnInit {
     } catch (error) {
       return (this.error = "Image corrupted!");
     }
-    const mutations = this.modifiedImage.mutations;
-    this.mutation = mutations[mutations.length - 1];
     const canvas = this.canvasElement.nativeElement;
     const ctx = canvas.getContext("2d");
     const image = this.imageElement;

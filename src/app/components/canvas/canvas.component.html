@@ -1,15 +1,16 @@
 <div>
     <canvas #canvas></canvas>
-    <div class="metadata">
-        <!-- Find and Replace metadata-->
-        <p>{{mutation?.name}}</p>
-        <p *ngIf="mutation?.replacementQuery">Query: "{{mutation.replacementQuery}}"</p>
-        <p *ngIf="mutation?.replacementMatches">Matches: {{mutation.replacementMatches}}</p>
-        <p *ngIf="mutation?.replacementText">Text: "{{mutation.replacementText}}"</p>
-        <!-- Swap Image Data metadata-->
-        <p *ngIf="mutation?.aIndex">A Index: {{mutation.aIndex}}</p>
-        <p *ngIf="mutation?.bIndex">B Index: {{mutation.bIndex}}</p>
-        <p *ngIf="mutation?.swapLength">Swap Length: {{mutation.swapLength}}</p>
-        <p *ngIf="error">{{error}}</p>
+    <!-- Find and Replace metadata-->
+    <div class="metadata" *ngIf="findAndReplace">
+        <p>Query: "{{findAndReplace.replacementQuery}}"</p>
+        <p>Matches: {{findAndReplace.replacementMatches}}</p>
+        <p>Text: "{{findAndReplace.replacementText}}"</p>
     </div>
+    <!-- Swap Image Data metadata-->
+    <div class="metadata" *ngIf="swapImageData">
+        <p>A Index: {{swapImageData.aIndex}}</p>
+        <p>B Index: {{swapImageData.bIndex}}</p>
+        <p>Swap Length: {{swapImageData.swapLength}}</p>
+    </div>
+    <p *ngIf="error">{{error}}</p>
 </div>
