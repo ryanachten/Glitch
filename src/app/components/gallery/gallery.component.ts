@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import * as uuid from "uuid";
 import { ModifiedImage, MutationId, Mutator, Mutation } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
@@ -49,6 +50,7 @@ export class GalleryComponent implements OnInit {
         Mutator,
         // If image does not exist at index, create new one
         existingImage || {
+          id: uuid.v4(),
           mutations: [],
           imageData: this.settings.originalImage,
         }
@@ -85,7 +87,8 @@ export class GalleryComponent implements OnInit {
     this.settings.save();
   }
 
-  async undoMutation({ mutations }: ModifiedImage) {
+  async undoMutation(originalImage: ModifiedImage) {
+    const { mutations } = originalImage;
     const decodedUri = this.encoding.decodeData(this.settings.originalImage);
     const previousMutations = mutations.slice(0, -1);
 
@@ -99,6 +102,7 @@ export class GalleryComponent implements OnInit {
 
     const encodedImageData = this.encoding.encodeData(currentImageData);
     const modifiedImage: ModifiedImage = {
+      ...originalImage,
       mutations: previousMutations,
       imageData: encodedImageData,
     };
@@ -107,14 +111,16 @@ export class GalleryComponent implements OnInit {
 
   async mutateImage(
     Mutator: Mutator,
-    { imageData, mutations }: ModifiedImage
+    originalImage: ModifiedImage
   ): Promise<ModifiedImage> {
+    const { imageData, mutations } = originalImage;
     const decodedUri = this.encoding.decodeData(imageData);
     const mutation: Mutation = Mutator.seed(decodedUri);
     const { updatedImage, mutationData } = Mutator.exec(decodedUri, mutation);
     const encodedImage = this.encoding.encodeData(updatedImage);
 
     const modifiedImage: ModifiedImage = {
+      ...originalImage,
       mutations: [
         ...mutations,
         {
