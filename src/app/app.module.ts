@@ -20,6 +20,7 @@ import { FindAndReplaceComponent } from "./components/mutations/find-and-replace
 import { SwapImageDataComponent } from "./components/mutations/swap-image-data/swap-image-data.component";
 import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
+import { DetailComponent } from "./components/detail/detail.component";
 
 registerLocaleData(en);
 
@@ -30,6 +31,7 @@ registerLocaleData(en);
     GalleryComponent,
     FindAndReplaceComponent,
     SwapImageDataComponent,
+    DetailComponent,
   ],
   imports: [
     BrowserModule,

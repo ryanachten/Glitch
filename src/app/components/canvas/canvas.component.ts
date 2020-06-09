@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { ModifiedImage, Mutation, MutationId } from "src/app/models";
 import { ReplacementMutation } from "../mutations/find-and-replace/find-and-replace.component";
 import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.component";
+import { Router } from "@angular/router";
+import { routePaths } from "src/app/routes";
 
 @Component({
   selector: "app-canvas",
@@ -18,7 +20,7 @@ export class CanvasComponent implements OnInit {
   findAndReplace: ReplacementMutation;
   swapImageData: SwapMutation;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.setMutationById();
@@ -66,5 +68,9 @@ export class CanvasComponent implements OnInit {
     canvas.height = image.height;
     canvas.width = image.width;
     ctx.drawImage(image, 0, 0, image.width, image.height);
+  }
+
+  navigateToDetail() {
+    this.router.navigate([routePaths.mutation, this.modifiedImage.id]);
   }
 }

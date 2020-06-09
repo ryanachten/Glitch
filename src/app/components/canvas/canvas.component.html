@@ -1,5 +1,5 @@
 <div>
-    <canvas #canvas></canvas>
+    <canvas #canvas [routerLink]="['/mutation/', modifiedImage.id]"></canvas>
     <!-- Find and Replace metadata-->
     <div class="metadata" *ngIf="findAndReplace">
         <p>Query: "{{findAndReplace.replacementQuery}}"</p>
