@@ -18,6 +18,7 @@ import { CanvasComponent } from "./components/canvas/canvas.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
 import { FindAndReplaceComponent } from "./components/mutations/find-and-replace/find-and-replace.component";
 import { SwapImageDataComponent } from "./components/mutations/swap-image-data/swap-image-data.component";
+import { DetailResolver } from "./resolver/detail.resolver";
 import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
@@ -46,7 +47,7 @@ registerLocaleData(en);
     NzInputNumberModule,
     NzSliderModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, DetailResolver],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
