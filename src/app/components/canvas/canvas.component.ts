@@ -4,6 +4,7 @@ import { ReplacementMutation } from "../mutations/find-and-replace/find-and-repl
 import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.component";
 import { Router } from "@angular/router";
 import { routePaths } from "src/app/routes";
+import { GlitchService } from "src/app/services/glitch.service";
 
 @Component({
   selector: "app-canvas",
@@ -20,7 +21,7 @@ export class CanvasComponent implements OnInit {
   findAndReplace: ReplacementMutation;
   swapImageData: SwapMutation;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private glitch: GlitchService) {}
 
   ngOnInit() {
     this.setMutationById();
@@ -42,10 +43,13 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  loadImage() {
+  async loadImage() {
+    const imageUri = await this.glitch.getUrlFromMutations(
+      this.modifiedImage.mutations
+    );
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.src = this.modifiedImage.imageData;
+      img.src = imageUri;
       img.onload = (e) => {
         this.imageElement = img;
         resolve();

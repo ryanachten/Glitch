@@ -52,7 +52,6 @@ export class GalleryComponent implements OnInit {
         existingImage || {
           id: uuid.v4(),
           mutations: [],
-          imageData: this.settings.originalImage,
         }
       );
       // If image already exists, replace it with updated img
@@ -89,22 +88,10 @@ export class GalleryComponent implements OnInit {
 
   async undoMutation(originalImage: ModifiedImage) {
     const { mutations } = originalImage;
-    const decodedUri = this.encoding.decodeData(this.settings.originalImage);
     const previousMutations = mutations.slice(0, -1);
-
-    let currentImageData = decodedUri;
-    previousMutations.map(async (mutation: Mutation) => {
-      const mutationId: MutationId = mutation.id;
-      const Mutator: Mutator = this.glitch.getMutatorById(mutationId);
-      const { updatedImage } = Mutator.exec(currentImageData, mutation);
-      currentImageData = updatedImage;
-    });
-
-    const encodedImageData = this.encoding.encodeData(currentImageData);
     const modifiedImage: ModifiedImage = {
       ...originalImage,
       mutations: previousMutations,
-      imageData: encodedImageData,
     };
     return modifiedImage;
   }
@@ -113,22 +100,16 @@ export class GalleryComponent implements OnInit {
     Mutator: Mutator,
     originalImage: ModifiedImage
   ): Promise<ModifiedImage> {
-    const { imageData, mutations } = originalImage;
+    const { mutations } = originalImage;
+    const imageData = await this.glitch.getUrlFromMutations(mutations);
     const decodedUri = this.encoding.decodeData(imageData);
+
     const mutation: Mutation = Mutator.seed(decodedUri);
-    const { updatedImage, mutationData } = Mutator.exec(decodedUri, mutation);
-    const encodedImage = this.encoding.encodeData(updatedImage);
+    mutations.push(mutation);
 
     const modifiedImage: ModifiedImage = {
       ...originalImage,
-      mutations: [
-        ...mutations,
-        {
-          ...mutation,
-          ...mutationData,
-        },
-      ],
-      imageData: encodedImage,
+      mutations,
     };
     return modifiedImage;
   }

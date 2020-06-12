@@ -9,7 +9,7 @@
         <nz-input-number name="generationSize" [nzMax]="10" [nzMin]="1" [(ngModel)]="settings.generationSize">
         </nz-input-number>
     </nz-form-item>
-    <button nz-button (click)="previousGeneration()" *ngIf="settings.epoch > 0">Previous Generation</button>
+    <button nz-button (click)="previousGeneration()" *ngIf="settings.epoch > 1">Previous Generation</button>
     <button nz-button (click)="redoGeneration()" *ngIf="settings.epoch > 0">Regenerate</button>
     <button nz-button (click)="resetEvolution()" *ngIf="settings.generatedImages.length">Reset Evolution</button>
 </form>
