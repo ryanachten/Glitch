@@ -19,6 +19,10 @@
 <app-swap-image-data [maxLength]="settings.originalImage.length / 2" *ngIf="settings.originalImage"
     (onCreateGeneration)="this.createGeneration($event)">
 </app-swap-image-data>
-<div class="image-wrapper">
-    <app-canvas *ngFor="let image of settings.generatedImages" [modifiedImage]="image"></app-canvas>
+
+<div class="gallery">
+    <div class="gallery__item" *ngFor="let image of settings.generatedImages">
+        <app-canvas [modifiedImage]="image"></app-canvas>
+        <app-metadata [modifiedImage]="image"></app-metadata>
+    </div>
 </div>

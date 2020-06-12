@@ -22,6 +22,7 @@ import { DetailResolver } from "./resolver/detail.resolver";
 import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
+import { MetadataComponent } from './components/metadata/metadata.component';
 
 registerLocaleData(en);
 
@@ -33,6 +34,7 @@ registerLocaleData(en);
     FindAndReplaceComponent,
     SwapImageDataComponent,
     DetailComponent,
+    MetadataComponent,
   ],
   imports: [
     BrowserModule,

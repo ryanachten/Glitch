@@ -1,16 +1,4 @@
 <div>
     <canvas #canvas [routerLink]="['/mutation/', modifiedImage.id]"></canvas>
-    <!-- Find and Replace metadata-->
-    <div class="metadata" *ngIf="findAndReplace">
-        <p>Query: "{{findAndReplace.replacementQuery}}"</p>
-        <p>Matches: {{findAndReplace.replacementMatches}}</p>
-        <p>Text: "{{findAndReplace.replacementText}}"</p>
-    </div>
-    <!-- Swap Image Data metadata-->
-    <div class="metadata" *ngIf="swapImageData">
-        <p>A Index: {{swapImageData.aIndex}}</p>
-        <p>B Index: {{swapImageData.bIndex}}</p>
-        <p>Swap Length: {{swapImageData.swapLength}}</p>
-    </div>
     <p *ngIf="error">{{error}}</p>
 </div>
