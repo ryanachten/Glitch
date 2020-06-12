@@ -19,7 +19,6 @@ export interface Mutation {
 
 export type ModifiedImage = {
   id: string;
-  imageData: string;
   mutations: Array<Mutation>;
 };
 
