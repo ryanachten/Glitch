@@ -11,6 +11,7 @@ export class DetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
   currentImage: ModifiedImage;
   mutations: Mutation[];
+  animation: NodeJS.Timer;
 
   ngOnInit() {
     const image = this.route.data["value"]["image"];
@@ -19,7 +20,7 @@ export class DetailComponent implements OnInit {
   }
 
   onPlayHistory() {
-    const animationInterval = setInterval(() => {
+    this.animation = setInterval(() => {
       let mutations = this.currentImage.mutations;
       mutations.length > 0
         ? mutations.pop()
@@ -30,5 +31,10 @@ export class DetailComponent implements OnInit {
         mutations,
       };
     }, 200);
+  }
+
+  onPauseHistory() {
+    clearInterval(this.animation);
+    this.animation = undefined;
   }
 }

@@ -1,3 +1,5 @@
 <app-canvas [modifiedImage]="currentImage"></app-canvas>
-<button nz-button nzType="primary" nzShape="circle" (click)="onPlayHistory()"><i nz-icon
+<button *ngIf="!animation" nz-button nzType="primary" nzShape="circle" (click)="onPlayHistory()"><i nz-icon
         nzType="play-circle"></i></button>
+<button *ngIf="animation" nz-button nzType="primary" nzShape="circle" (click)="onPauseHistory()"><i nz-icon
+        nzType="pause-circle"></i></button>
