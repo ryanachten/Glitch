@@ -3,8 +3,13 @@
         nzType="play-circle"></i></button>
 <button *ngIf="animation" nz-button nzType="primary" nzShape="circle" (click)="onPauseHistory()"><i nz-icon
         nzType="pause-circle"></i></button>
-<div class="history__metadata" *ngFor="let mutation of mutations; let i = index"
-    [ngClass]="i === currentImage.mutations.length - 1 ? 'active' : ''">
-    <span>{{i + 1}}. </span>
-    <app-metadata [showName]="true" [mutation]="mutation"></app-metadata>
-</div>
+
+<nz-steps [nzCurrent]="currentImage.mutations.length - 1" nzDirection="vertical">
+    <div *ngFor="let mutation of mutations; let i = index">
+        <nz-step [nzTitle]="mutation.name" [nzDescription]="metadataWrapper">
+        </nz-step>
+        <ng-template #metadataWrapper>
+            <app-metadata [mutation]="mutation"></app-metadata>
+        </ng-template>
+    </div>
+</nz-steps>
