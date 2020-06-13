@@ -57,8 +57,6 @@ export class SwapImageDataComponent implements OnInit, Mutator {
     const middle = imageData.slice(aIndex + swapLength, bIndex);
     const b = imageData.slice(bIndex, bIndex + swapLength);
     const tail = imageData.slice(bIndex + swapLength);
-    return {
-      updatedImage: `${head}${b}${middle}${a}${tail}`,
-    };
+    return `${head}${b}${middle}${a}${tail}`;
   }
 }

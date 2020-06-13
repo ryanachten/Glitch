@@ -65,11 +65,16 @@ export class FindAndReplaceComponent implements OnInit, Mutator {
       }
     }
 
+    const replacementQuery = replaceRegex.source;
+    const queryMatches = imageBody.match(replaceRegex);
+    const matchCount = queryMatches ? queryMatches.length : 0;
+
     return {
       id: this.mutation.id,
       name: this.mutation.name,
       replacementText,
-      replacementQuery: replaceRegex.source,
+      replacementQuery,
+      replacementMatches: matchCount,
     };
   }
 
@@ -78,13 +83,7 @@ export class FindAndReplaceComponent implements OnInit, Mutator {
     { replacementQuery, replacementText }: ReplacementMutation
   ) {
     const replaceRegex: RegExp = new RegExp(replacementQuery, "g");
-    const replacementMatches = imageData.match(replaceRegex);
     const updatedImage = imageData.replace(replaceRegex, replacementText);
-    return {
-      updatedImage,
-      mutationData: {
-        replacementMatches: replacementMatches ? replacementMatches.length : 0,
-      },
-    };
+    return updatedImage;
   }
 }

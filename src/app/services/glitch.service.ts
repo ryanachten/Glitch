@@ -29,7 +29,7 @@ export class GlitchService {
 
     mutations.forEach((mutation: Mutation) => {
       const Mutator: Mutator = this.getMutatorById(mutation.id);
-      const { updatedImage } = Mutator.exec(imageData, mutation);
+      const updatedImage = Mutator.exec(imageData, mutation);
       imageData = updatedImage;
     });
     const encodedUri = this.encoding.encodeData(imageData);
