@@ -23,6 +23,7 @@
 <div class="gallery">
     <div class="gallery__item" *ngFor="let image of settings.generatedImages">
         <app-canvas [modifiedImage]="image"></app-canvas>
-        <app-metadata [mutation]="image.mutations[image.mutations.length -1]"></app-metadata>
+        <app-metadata *ngIf="!image.mutations[image.mutations.length -1].corrupted"
+            [mutation]="image.mutations[image.mutations.length -1]"></app-metadata>
     </div>
 </div>

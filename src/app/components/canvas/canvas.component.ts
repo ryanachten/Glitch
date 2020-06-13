@@ -52,6 +52,9 @@ export class CanvasComponent implements OnInit {
     try {
       await this.loadImage();
     } catch (error) {
+      this.modifiedImage.mutations[
+        this.modifiedImage.mutations.length - 1
+      ].corrupted = true;
       return (this.error = "Image corrupted!");
     }
     const canvas = this.canvasElement.nativeElement;

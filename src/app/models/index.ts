@@ -15,6 +15,7 @@ export interface Mutator {
 export interface Mutation {
   id: MutationId;
   name: string;
+  corrupted?: boolean;
 }
 
 export type ModifiedImage = {
