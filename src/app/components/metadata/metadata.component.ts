@@ -9,7 +9,8 @@ import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.compo
   styleUrls: ["./metadata.component.less"],
 })
 export class MetadataComponent implements OnInit {
-  @Input() modifiedImage: ModifiedImage;
+  @Input() mutation: Mutation;
+  @Input() showName: boolean;
 
   // Mutations
   findAndReplace: ReplacementMutation;
@@ -22,8 +23,7 @@ export class MetadataComponent implements OnInit {
   }
 
   setMutationById() {
-    const mutations = this.modifiedImage.mutations;
-    const activeMutation: Mutation = mutations[mutations.length - 1];
+    const activeMutation: Mutation = this.mutation;
     switch (activeMutation.id) {
       case MutationId.FindAndReplace:
         return (this.findAndReplace = activeMutation as ReplacementMutation);

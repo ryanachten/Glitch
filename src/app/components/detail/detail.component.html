@@ -3,3 +3,7 @@
         nzType="play-circle"></i></button>
 <button *ngIf="animation" nz-button nzType="primary" nzShape="circle" (click)="onPauseHistory()"><i nz-icon
         nzType="pause-circle"></i></button>
+<div *ngFor="let mutation of mutations; let i = index">
+    <span>{{i + 1}}. </span>
+    <app-metadata [showName]="true" [mutation]="mutation"></app-metadata>
+</div>
