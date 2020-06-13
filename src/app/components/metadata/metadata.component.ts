@@ -10,7 +10,6 @@ import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.compo
 })
 export class MetadataComponent implements OnInit {
   @Input() mutation: Mutation;
-  @Input() showName: boolean;
 
   // Mutations
   findAndReplace: ReplacementMutation;

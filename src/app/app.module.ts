@@ -8,6 +8,7 @@ import { FormsModule } from "@angular/forms";
 
 import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 import { NzButtonModule } from "ng-zorro-antd/button";
+import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzSliderModule } from "ng-zorro-antd/slider";
@@ -45,6 +46,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
+    NzBreadCrumbModule,
     NzButtonModule,
     NzFormModule,
     NzInputNumberModule,

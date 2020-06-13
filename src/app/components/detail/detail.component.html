@@ -1,3 +1,12 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item>
+        <a [routerLink]="['gallery']">Gallery</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        {{currentImage.id}}
+    </nz-breadcrumb-item>
+</nz-breadcrumb>
+
 <app-canvas [modifiedImage]="currentImage"></app-canvas>
 <button *ngIf="!animation" nz-button nzType="primary" nzShape="circle" (click)="onPlayHistory()"><i nz-icon
         nzType="play-circle"></i></button>
