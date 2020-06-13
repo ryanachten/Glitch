@@ -20,17 +20,21 @@ export class DetailComponent implements OnInit {
   }
 
   onPlayHistory() {
+    this.currentImage = {
+      ...this.currentImage,
+      mutations: [],
+    };
     this.animation = setInterval(() => {
       let mutations = this.currentImage.mutations;
-      mutations.length > 0
-        ? mutations.pop()
-        : (mutations = [...this.mutations]);
+      mutations.length === this.mutations.length
+        ? (mutations = [])
+        : mutations.push(this.mutations[mutations.length]);
 
       this.currentImage = {
         ...this.currentImage,
         mutations,
       };
-    }, 200);
+    }, 500);
   }
 
   onPauseHistory() {
