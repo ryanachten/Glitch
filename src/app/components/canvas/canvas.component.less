@@ -1,8 +1,15 @@
-canvas {
-  background-color: red;
+.canvas {
   width: 100%;
+
+  &--error {
+    display: none;
+  }
 
   &:hover {
     cursor: pointer;
   }
+}
+
+.canvas__error-message {
+  flex-grow: 1;
 }

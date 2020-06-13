@@ -1,9 +1,4 @@
 .gallery {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.gallery__item {
-  min-width: 300px;
-  width: 25%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }

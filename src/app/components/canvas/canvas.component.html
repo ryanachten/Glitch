@@ -1,4 +1,6 @@
-<div>
-    <canvas #canvas [routerLink]="['/mutation/', modifiedImage.id]"></canvas>
-    <p *ngIf="error">{{error}}</p>
+<canvas class="canvas" [ngClass]="error ? 'canvas--error' : ''" #canvas
+    [routerLink]="['/mutation/', modifiedImage.id]"></canvas>
+<div class="canvas__error-message" *ngIf="error">
+    <i nz-icon nzType="file-exclamation" nzTheme="outline"></i>
+    <p>{{error}}</p>
 </div>
