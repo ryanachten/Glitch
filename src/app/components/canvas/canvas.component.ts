@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  SimpleChange,
+} from "@angular/core";
 import { ModifiedImage } from "src/app/models";
 import { Router } from "@angular/router";
 import { routePaths } from "src/app/routes";
@@ -18,6 +24,10 @@ export class CanvasComponent implements OnInit {
   constructor(private router: Router, private glitch: GlitchService) {}
 
   ngOnInit() {
+    this.renderImage();
+  }
+
+  ngOnChanges(changes: SimpleChange) {
     this.renderImage();
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ModifiedImage } from "src/app/models";
+import { ModifiedImage, Mutation } from "src/app/models";
 
 @Component({
   selector: "app-detail",
@@ -9,9 +9,26 @@ import { ModifiedImage } from "src/app/models";
 })
 export class DetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
-  image: ModifiedImage;
+  currentImage: ModifiedImage;
+  mutations: Mutation[];
 
   ngOnInit() {
-    this.image = this.route.data["value"]["image"];
+    const image = this.route.data["value"]["image"];
+    this.currentImage = image;
+    this.mutations = [...image.mutations];
+  }
+
+  onPlayHistory() {
+    const animationInterval = setInterval(() => {
+      let mutations = this.currentImage.mutations;
+      mutations.length > 0
+        ? mutations.pop()
+        : (mutations = [...this.mutations]);
+
+      this.currentImage = {
+        ...this.currentImage,
+        mutations,
+      };
+    }, 200);
   }
 }

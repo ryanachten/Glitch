@@ -11,6 +11,7 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzSliderModule } from "ng-zorro-antd/slider";
+import { NzStepsModule } from "ng-zorro-antd/steps";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -22,7 +23,7 @@ import { DetailResolver } from "./resolver/detail.resolver";
 import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
-import { MetadataComponent } from './components/metadata/metadata.component';
+import { MetadataComponent } from "./components/metadata/metadata.component";
 
 registerLocaleData(en);
 
@@ -48,6 +49,7 @@ registerLocaleData(en);
     NzFormModule,
     NzInputNumberModule,
     NzSliderModule,
+    NzStepsModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, DetailResolver],
   bootstrap: [AppComponent],
