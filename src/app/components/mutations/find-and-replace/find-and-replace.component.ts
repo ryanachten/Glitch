@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
-import { Mutator, Mutation, MutationId } from "src/app/models";
+import { Mutator, Mutation, Mutations } from "src/app/models";
 import { SettingsService } from "src/app/services/settings.service";
 
 export type ReplacementMutation = Mutation & {
@@ -22,8 +22,8 @@ export class FindAndReplaceComponent implements OnInit, Mutator {
   @Output() onCreateGeneration = new EventEmitter();
 
   mutation: Mutation = {
-    id: MutationId.FindAndReplace,
-    name: "Find and replace",
+    id: Mutations.FindAndReplace.id,
+    name: Mutations.FindAndReplace.name,
   };
 
   constructor(public settings: SettingsService) {}

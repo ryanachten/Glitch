@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MutationId, Settings, ModifiedImage } from "../models";
+import { Mutations, Settings, ModifiedImage } from "../models";
 import { EncodingService } from "./encoding.service";
 
 @Injectable({
@@ -12,10 +12,10 @@ export class SettingsService {
   generatedImages: Array<ModifiedImage> = [];
 
   mutations = {
-    [MutationId.FindAndReplace]: {
+    [Mutations.FindAndReplace.id]: {
       maxReplaceLength: 6,
     },
-    [MutationId.SwapImageData]: {
+    [Mutations.SwapImageData.id]: {
       maxSwapLength: 6,
     },
   };

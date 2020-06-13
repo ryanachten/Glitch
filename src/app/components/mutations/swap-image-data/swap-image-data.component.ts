@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from "@angular/core";
-import { Mutator, Mutation, MutationId } from "src/app/models";
+import { Mutator, Mutation, Mutations } from "src/app/models";
 import { SettingsService } from "src/app/services/settings.service";
 
 export type SwapMutation = Mutation & {
@@ -21,8 +21,8 @@ export class SwapImageDataComponent implements OnInit, Mutator {
   @Input() maxLength: number;
   @Output() onCreateGeneration = new EventEmitter();
   mutation: Mutation = {
-    id: MutationId.SwapImageData,
-    name: "Swap Image Data",
+    id: Mutations.SwapImageData.id,
+    name: Mutations.SwapImageData.name,
   };
 
   constructor(public settings: SettingsService) {}

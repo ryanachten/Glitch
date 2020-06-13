@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as uuid from "uuid";
-import { ModifiedImage, MutationId, Mutator, Mutation } from "src/app/models";
+import { ModifiedImage, Mutator, Mutation } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
 import { SettingsService } from "src/app/services/settings.service";
@@ -42,7 +42,7 @@ export class GalleryComponent implements OnInit {
     this.settings.save();
   }
 
-  async createGeneration(mutationId: MutationId) {
+  async createGeneration(mutationId: string) {
     const Mutator = this.glitch.getMutatorById(mutationId);
     for (let i = 0; i < this.settings.generationSize; i++) {
       const existingImage = this.settings.generatedImages[i];

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { ModifiedImage, Mutation, MutationId } from "src/app/models";
+import { Mutation, Mutations } from "src/app/models";
 import { ReplacementMutation } from "../mutations/find-and-replace/find-and-replace.component";
 import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.component";
 
@@ -24,10 +24,10 @@ export class MetadataComponent implements OnInit {
   setMutationById() {
     const activeMutation: Mutation = this.mutation;
     switch (activeMutation.id) {
-      case MutationId.FindAndReplace:
+      case Mutations.FindAndReplace.id:
         return (this.findAndReplace = activeMutation as ReplacementMutation);
 
-      case MutationId.SwapImageData:
+      case Mutations.SwapImageData.id:
         return (this.swapImageData = activeMutation as SwapMutation);
 
       default:

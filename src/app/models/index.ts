@@ -1,7 +1,18 @@
-export enum MutationId {
-  FindAndReplace = "FindAndReplace",
-  SwapImageData = "SwapImageData",
-}
+export const Mutations: {
+  [mutation: string]: {
+    id: string;
+    name: string;
+  };
+} = {
+  FindAndReplace: {
+    id: "FindAndReplace",
+    name: "Find and Replace",
+  },
+  SwapImageData: {
+    id: "SwapImageData",
+    name: "Swap Image Data",
+  },
+};
 
 export interface Mutator {
   mutation: Mutation;
@@ -10,7 +21,7 @@ export interface Mutator {
 }
 
 export interface Mutation {
-  id: MutationId;
+  id: string;
   name: string;
   corrupted?: boolean;
 }
