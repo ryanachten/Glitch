@@ -1,4 +1,10 @@
+@import "../../styles/mixins.less";
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.gallery__img {
+  .responsive-img();
 }
