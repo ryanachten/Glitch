@@ -1,29 +1,60 @@
-<img *ngIf="this.settings.originalImage" src={{settings.originalImage}} alt="Original Image" width="100%">
+<img
+  class="gallery__img"
+  *ngIf="this.settings.originalImage"
+  src="{{ settings.originalImage }}"
+  alt="Original Image"
+  width="100%"
+/>
 <form nz-form>
-    <!-- TODO: use upload component when API integration has been developed -->
-    <input name="image" type="file" (change)="uploadImage($event)" />
-    <p nz-typography *ngIf="encoding.mimeType">Media type of {{ encoding.mimeType }}</p>
-    <p nz-typography>Current generation: {{ settings.epoch }}</p>
-    <nz-form-item>
-        <nz-form-label nzFor="generationSize">Generation size</nz-form-label>
-        <nz-input-number name="generationSize" [nzMax]="10" [nzMin]="1" [(ngModel)]="settings.generationSize">
-        </nz-input-number>
-    </nz-form-item>
-    <button nz-button (click)="previousGeneration()" *ngIf="settings.epoch > 1">Previous Generation</button>
-    <button nz-button (click)="redoGeneration()" *ngIf="settings.epoch > 0">Regenerate</button>
-    <button nz-button (click)="resetEvolution()" *ngIf="settings.generatedImages.length">Reset Evolution</button>
+  <!-- TODO: use upload component when API integration has been developed -->
+  <input name="image" type="file" (change)="uploadImage($event)" />
+  <p nz-typography *ngIf="encoding.mimeType">
+    Media type of {{ encoding.mimeType }}
+  </p>
+  <p nz-typography>Current generation: {{ settings.epoch }}</p>
+  <nz-form-item>
+    <nz-form-label nzFor="generationSize">Generation size</nz-form-label>
+    <nz-input-number
+      name="generationSize"
+      [nzMax]="10"
+      [nzMin]="1"
+      [(ngModel)]="settings.generationSize"
+    >
+    </nz-input-number>
+  </nz-form-item>
+  <button nz-button (click)="previousGeneration()" *ngIf="settings.epoch > 1">
+    Previous Generation
+  </button>
+  <button nz-button (click)="redoGeneration()" *ngIf="settings.epoch > 0">
+    Regenerate
+  </button>
+  <button
+    nz-button
+    (click)="resetEvolution()"
+    *ngIf="settings.generatedImages.length"
+  >
+    Reset Evolution
+  </button>
 </form>
 
-<app-find-and-replace [maxLength]="settings.originalImage.length / 2" *ngIf="settings.originalImage"
-    (onCreateGeneration)="this.createGeneration($event)"></app-find-and-replace>
-<app-swap-image-data [maxLength]="settings.originalImage.length / 2" *ngIf="settings.originalImage"
-    (onCreateGeneration)="this.createGeneration($event)">
+<app-find-and-replace
+  [maxLength]="settings.originalImage.length / 2"
+  *ngIf="settings.originalImage"
+  (onCreateGeneration)="this.createGeneration($event)"
+></app-find-and-replace>
+<app-swap-image-data
+  [maxLength]="settings.originalImage.length / 2"
+  *ngIf="settings.originalImage"
+  (onCreateGeneration)="this.createGeneration($event)"
+>
 </app-swap-image-data>
 
 <div class="gallery">
-    <div class="gallery__item" *ngFor="let image of settings.generatedImages">
-        <app-canvas [modifiedImage]="image"></app-canvas>
-        <app-metadata *ngIf="!image.mutations[image.mutations.length -1].corrupted"
-            [mutation]="image.mutations[image.mutations.length -1]"></app-metadata>
-    </div>
+  <div class="gallery__item" *ngFor="let image of settings.generatedImages">
+    <app-canvas class="gallery__canvas" [modifiedImage]="image"></app-canvas>
+    <app-metadata
+      *ngIf="!image.mutations[image.mutations.length - 1].corrupted"
+      [mutation]="image.mutations[image.mutations.length - 1]"
+    ></app-metadata>
+  </div>
 </div>
