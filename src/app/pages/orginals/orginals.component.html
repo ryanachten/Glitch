@@ -1,2 +1,9 @@
 <!-- TODO: use upload component when API integration has been developed -->
 <input name="image" type="file" (change)="uploadImage($event)" />
+<img
+  *ngFor="let image of settings.originalImages"
+  class="original__img"
+  src="{{ image.imageData }}"
+  alt="Original Image"
+  width="100%"
+/>

@@ -40,6 +40,7 @@ export type OriginalImage = {
 
 export interface Settings {
   originalImage: string;
+  originalImages: Array<OriginalImage>;
   epoch: number;
   generationSize: number;
   generatedImages: Array<ModifiedImage>;

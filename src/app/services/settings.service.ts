@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Mutations, Settings, ModifiedImage } from "../models";
+import { Mutations, Settings, ModifiedImage, OriginalImage } from "../models";
 import { EncodingService } from "./encoding.service";
 
 @Injectable({
@@ -7,6 +7,7 @@ import { EncodingService } from "./encoding.service";
 })
 export class SettingsService {
   originalImage: string;
+  originalImages: Array<OriginalImage>;
   epoch = 0;
   generationSize = 6;
   generatedImages: Array<ModifiedImage> = [];
@@ -29,6 +30,7 @@ export class SettingsService {
     if (settings) {
       const {
         originalImage,
+        originalImages = [],
         generationSize,
         generatedImages,
         epoch,
@@ -36,6 +38,7 @@ export class SettingsService {
         dataHeader,
       }: Settings = JSON.parse(settings);
       this.originalImage = originalImage;
+      this.originalImages = originalImages;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
       this.encoding.mimeType = mimeType;
@@ -47,6 +50,7 @@ export class SettingsService {
   save() {
     const settings: Settings = {
       originalImage: this.originalImage,
+      originalImages: this.originalImages,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
       dataHeader: this.encoding.dataHeader,

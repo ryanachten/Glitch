@@ -19,23 +19,6 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {}
 
-  uploadImage(event) {
-    const files = event.target.files;
-    if (!files.length) {
-      return;
-    }
-    const fileReader: FileReader = new FileReader();
-    fileReader.onload = () => {
-      if (!fileReader.result) {
-        return null;
-      }
-      const encodedUri = fileReader.result.toString();
-      this.encoding.setDataHeader(encodedUri);
-      this.settings.originalImage = encodedUri;
-    };
-    fileReader.readAsDataURL(files[0]);
-  }
-
   resetEvolution() {
     this.settings.generatedImages = [];
     this.settings.epoch = 0;

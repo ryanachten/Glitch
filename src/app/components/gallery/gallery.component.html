@@ -6,8 +6,6 @@
   width="100%"
 />
 <form nz-form>
-  <!-- TODO: use upload component when API integration has been developed -->
-  <input name="image" type="file" (change)="uploadImage($event)" />
   <p nz-typography *ngIf="encoding.mimeType">
     Media type of {{ encoding.mimeType }}
   </p>

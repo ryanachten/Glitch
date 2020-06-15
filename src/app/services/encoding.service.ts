@@ -9,6 +9,22 @@ export class EncodingService {
 
   constructor() {}
 
+  getDataHeader(dataUri: string) {
+    const mimeRegex = /data:(.*);base64,/;
+    const regexMatches = mimeRegex.exec(dataUri);
+    let dataHeader = null;
+    let mimeType = null;
+    if (regexMatches && regexMatches.length) {
+      dataHeader = regexMatches[0];
+      mimeType = regexMatches[1];
+    }
+    return {
+      dataHeader,
+      mimeType,
+    };
+  }
+
+  // TODO: deprecate
   setDataHeader(dataUri: string) {
     const mimeRegex = /data:(.*);base64,/;
     const regexMatches = mimeRegex.exec(dataUri);

@@ -36,6 +36,7 @@ export class OrginalsComponent implements OnInit {
         imageData: encodedUri,
       };
       this.settings.originalImages.push(originalImage);
+      this.settings.save();
     };
     fileReader.readAsDataURL(files[0]);
   }
