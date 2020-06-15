@@ -25,6 +25,7 @@ import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
 import { MetadataComponent } from "./components/metadata/metadata.component";
+import { OrginalsComponent } from "./pages/orginals/orginals.component";
 
 registerLocaleData(en);
 
@@ -37,6 +38,7 @@ registerLocaleData(en);
     SwapImageDataComponent,
     DetailComponent,
     MetadataComponent,
+    OrginalsComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +53,9 @@ registerLocaleData(en);
     NzFormModule,
     NzInputNumberModule,
     NzSliderModule,
-    NzStepsModule,
+    NzStepsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, DetailResolver],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -31,6 +31,13 @@ export type ModifiedImage = {
   mutations: Array<Mutation>;
 };
 
+export type OriginalImage = {
+  id: string;
+  mimeType: string;
+  dataHeader: string;
+  imageData: string;
+};
+
 export interface Settings {
   originalImage: string;
   epoch: number;
