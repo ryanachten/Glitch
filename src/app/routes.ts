@@ -11,6 +11,7 @@ export const routePaths = {
 export const routes: Routes = [
   { path: "", component: OrginalsComponent },
   { path: "originals", component: OrginalsComponent },
+  { path: "mutate/:id", component: GalleryComponent },
   {
     path: "mutation/:id",
     component: DetailComponent,
