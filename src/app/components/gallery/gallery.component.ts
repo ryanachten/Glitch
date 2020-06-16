@@ -1,9 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import * as uuid from "uuid";
-import { ModifiedImage, Mutator, Mutation } from "src/app/models";
+import {
+  ModifiedImage,
+  Mutator,
+  Mutation,
+  OriginalImage,
+} from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
 import { SettingsService } from "src/app/services/settings.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-gallery",
@@ -11,13 +17,19 @@ import { SettingsService } from "src/app/services/settings.service";
   styleUrls: ["./gallery.component.less"],
 })
 export class GalleryComponent implements OnInit {
+  originalImage: OriginalImage;
+
   constructor(
     public settings: SettingsService,
     public encoding: EncodingService,
-    private glitch: GlitchService
+    private glitch: GlitchService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const image = this.route.data["value"]["image"];
+    this.originalImage = image;
+  }
 
   resetEvolution() {
     this.settings.generatedImages = [];

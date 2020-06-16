@@ -21,6 +21,7 @@ import { GalleryComponent } from "./components/gallery/gallery.component";
 import { FindAndReplaceComponent } from "./components/mutations/find-and-replace/find-and-replace.component";
 import { SwapImageDataComponent } from "./components/mutations/swap-image-data/swap-image-data.component";
 import { DetailResolver } from "./resolver/detail.resolver";
+import { MutateResolver } from "./resolver/mutate.resolver";
 import { RouterModule } from "@angular/router";
 import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
@@ -38,7 +39,7 @@ registerLocaleData(en);
     SwapImageDataComponent,
     DetailComponent,
     MetadataComponent,
-    OrginalsComponent
+    OrginalsComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,9 +54,13 @@ registerLocaleData(en);
     NzFormModule,
     NzInputNumberModule,
     NzSliderModule,
-    NzStepsModule
+    NzStepsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, DetailResolver],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    DetailResolver,
+    MutateResolver,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
