@@ -1,6 +1,5 @@
 <img
   class="gallery__img"
-  *ngIf="this.settings.originalImage"
   src="{{ settings.originalImage }}"
   alt="Original Image"
   width="100%"
@@ -36,20 +35,22 @@
 </form>
 
 <app-find-and-replace
-  [maxLength]="settings.originalImage.length / 2"
-  *ngIf="settings.originalImage"
+  [maxLength]="originalImage.imageData.length / 2"
   (onCreateGeneration)="this.createGeneration($event)"
 ></app-find-and-replace>
 <app-swap-image-data
-  [maxLength]="settings.originalImage.length / 2"
-  *ngIf="settings.originalImage"
+  [maxLength]="originalImage.imageData.length / 2"
   (onCreateGeneration)="this.createGeneration($event)"
 >
 </app-swap-image-data>
 
 <div class="gallery">
   <div class="gallery__item" *ngFor="let image of settings.generatedImages">
-    <app-canvas class="gallery__canvas" [modifiedImage]="image"></app-canvas>
+    <app-canvas
+      class="gallery__canvas"
+      [originalImage]="originalImage"
+      [modifiedImage]="image"
+    ></app-canvas>
     <app-metadata
       *ngIf="!image.mutations[image.mutations.length - 1].corrupted"
       [mutation]="image.mutations[image.mutations.length - 1]"

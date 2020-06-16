@@ -96,7 +96,10 @@ export class GalleryComponent implements OnInit {
     originalImage: ModifiedImage
   ): Promise<ModifiedImage> {
     const { mutations } = originalImage;
-    const imageData = await this.glitch.getUrlFromMutations(mutations);
+    const imageData = await this.glitch.getUrlFromMutations(
+      this.originalImage,
+      mutations
+    );
     const decodedUri = this.encoding.decodeData(imageData);
 
     const mutation: Mutation = Mutator.seed(decodedUri);

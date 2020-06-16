@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Mutations, Mutator, Mutation } from "../models";
+import { Mutations, Mutator, Mutation, OriginalImage } from "../models";
 import { FindAndReplaceComponent } from "../components/mutations/find-and-replace/find-and-replace.component";
 import { SwapImageDataComponent } from "../components/mutations/swap-image-data/swap-image-data.component";
 import { SettingsService } from "./settings.service";
@@ -24,8 +24,11 @@ export class GlitchService {
     return new Mutator(this.settings);
   }
 
-  public async getUrlFromMutations(mutations: Mutation[]): Promise<string> {
-    let imageData = this.encoding.decodeData(this.settings.originalImage);
+  public async getUrlFromMutations(
+    originalImage: OriginalImage,
+    mutations: Mutation[]
+  ): Promise<string> {
+    let imageData = this.encoding.decodeData(originalImage.imageData);
 
     mutations.forEach((mutation: Mutation) => {
       const Mutator: Mutator = this.getMutatorById(mutation.id);

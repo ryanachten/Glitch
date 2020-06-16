@@ -5,7 +5,7 @@ import {
   ViewChild,
   SimpleChange,
 } from "@angular/core";
-import { ModifiedImage } from "src/app/models";
+import { ModifiedImage, OriginalImage } from "src/app/models";
 import { Router } from "@angular/router";
 import { routePaths } from "src/app/routes";
 import { GlitchService } from "src/app/services/glitch.service";
@@ -16,6 +16,7 @@ import { GlitchService } from "src/app/services/glitch.service";
   styleUrls: ["./canvas.component.less"],
 })
 export class CanvasComponent implements OnInit {
+  @Input() originalImage: OriginalImage;
   @Input() modifiedImage: ModifiedImage;
   @ViewChild("canvas", { static: true }) canvasElement;
   imageElement: HTMLImageElement;
@@ -33,6 +34,7 @@ export class CanvasComponent implements OnInit {
 
   async loadImage() {
     const imageUri = await this.glitch.getUrlFromMutations(
+      this.originalImage,
       this.modifiedImage.mutations
     );
     return new Promise((resolve, reject) => {

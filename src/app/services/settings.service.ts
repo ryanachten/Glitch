@@ -29,7 +29,6 @@ export class SettingsService {
     const settings = localStorage.getItem("settings");
     if (settings) {
       const {
-        originalImage,
         originalImages = [],
         generationSize,
         generatedImages,
@@ -37,7 +36,6 @@ export class SettingsService {
         mimeType,
         dataHeader,
       }: Settings = JSON.parse(settings);
-      this.originalImage = originalImage;
       this.originalImages = originalImages;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
@@ -49,7 +47,6 @@ export class SettingsService {
 
   save() {
     const settings: Settings = {
-      originalImage: this.originalImage,
       originalImages: this.originalImages,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
