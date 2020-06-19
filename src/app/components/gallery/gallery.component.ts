@@ -19,7 +19,7 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./gallery.component.less"],
 })
 export class GalleryComponent implements OnInit, PageTemplate {
-  breadcrumb = [AppRoutes.home, AppRoutes.mutation];
+  breadcrumb = [AppRoutes.home];
   originalImage: OriginalImage;
 
   constructor(
@@ -32,6 +32,7 @@ export class GalleryComponent implements OnInit, PageTemplate {
   ngOnInit() {
     const image = this.route.data["value"]["image"];
     this.originalImage = image;
+    this.breadcrumb.push({ ...AppRoutes.mutate, params: image.id });
     this.resetEvolution();
   }
 

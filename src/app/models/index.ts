@@ -1,5 +1,6 @@
 export type AppRoute = {
   path: string;
+  params?: string;
   label: string;
 };
 
@@ -8,8 +9,12 @@ export const AppRoutes: { [route: string]: AppRoute } = {
     path: "",
     label: "Home",
   },
+  mutate: {
+    path: "/mutate/",
+    label: "Mutate",
+  },
   mutation: {
-    path: "mutation",
+    path: "/mutation/",
     label: "Mutation",
   },
 };
