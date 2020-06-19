@@ -47,6 +47,7 @@ export class GalleryComponent implements OnInit {
         existingImage || {
           id: uuid.v4(),
           mutations: [],
+          original: this.originalImage.id,
         }
       );
       // If image already exists, replace it with updated img

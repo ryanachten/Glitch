@@ -8,7 +8,10 @@
 </nz-breadcrumb>
 
 <div class="detail__canvas-wrapper">
-  <app-canvas [modifiedImage]="currentImage"></app-canvas>
+  <app-canvas
+    [originalImage]="orignalImage"
+    [modifiedImage]="currentImage"
+  ></app-canvas>
 </div>
 <button
   *ngIf="!animation"

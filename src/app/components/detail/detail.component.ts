@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ModifiedImage, Mutation } from "src/app/models";
+import { ModifiedImage, Mutation, OriginalImage } from "src/app/models";
+import { DatailResponse } from "src/app/resolver/detail.resolver";
 
 @Component({
   selector: "app-detail",
@@ -9,14 +10,18 @@ import { ModifiedImage, Mutation } from "src/app/models";
 })
 export class DetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
+  orignalImage: OriginalImage;
   currentImage: ModifiedImage;
   mutations: Mutation[];
   animation: NodeJS.Timer;
 
   ngOnInit() {
-    const image = this.route.data["value"]["image"];
-    this.currentImage = image;
-    this.mutations = [...image.mutations];
+    const data: DatailResponse = this.route.data["value"]["data"];
+    const { mutatedImage, originalImage } = data;
+
+    this.currentImage = mutatedImage;
+    this.orignalImage = originalImage;
+    this.mutations = [...mutatedImage.mutations];
   }
 
   onPlayHistory() {
