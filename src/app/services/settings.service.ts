@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Mutations, ModifiedImage, OriginalImage } from "../models";
-import { EncodingService } from "./encoding.service";
 
 interface Settings {
   originalImages: Array<OriginalImage>;
@@ -13,7 +12,6 @@ interface Settings {
   providedIn: "root",
 })
 export class SettingsService {
-  originalImage: string;
   originalImages: Array<OriginalImage>;
   epoch = 0;
   generationSize = 6;
@@ -28,7 +26,7 @@ export class SettingsService {
     },
   };
 
-  constructor(private encoding: EncodingService) {
+  constructor() {
     this.load();
   }
 
@@ -45,6 +43,8 @@ export class SettingsService {
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
       this.epoch = epoch;
+    } else {
+      this.save();
     }
   }
 
