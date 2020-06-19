@@ -28,14 +28,20 @@ export class GlitchService {
     originalImage: OriginalImage,
     mutations: Mutation[]
   ): Promise<string> {
-    let imageData = this.encoding.decodeData(originalImage.imageData);
+    let imageData = this.encoding.decodeData(
+      originalImage.dataHeader,
+      originalImage.imageData
+    );
 
     mutations.forEach((mutation: Mutation) => {
       const Mutator: Mutator = this.getMutatorById(mutation.id);
       const updatedImage = Mutator.exec(imageData, mutation);
       imageData = updatedImage;
     });
-    const encodedUri = this.encoding.encodeData(imageData);
+    const encodedUri = this.encoding.encodeData(
+      originalImage.dataHeader,
+      imageData
+    );
     return encodedUri;
   }
 }

@@ -38,12 +38,3 @@ export type OriginalImage = {
   dataHeader: string;
   imageData: string;
 };
-
-export interface Settings {
-  originalImages: Array<OriginalImage>;
-  epoch: number;
-  generationSize: number;
-  generatedImages: Array<ModifiedImage>;
-  dataHeader: string;
-  mimeType: string;
-}

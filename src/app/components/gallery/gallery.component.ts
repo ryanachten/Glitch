@@ -101,7 +101,10 @@ export class GalleryComponent implements OnInit {
       this.originalImage,
       mutations
     );
-    const decodedUri = this.encoding.decodeData(imageData);
+    const decodedUri = this.encoding.decodeData(
+      this.originalImage.dataHeader,
+      imageData
+    );
 
     const mutation: Mutation = Mutator.seed(decodedUri);
     mutations.push(mutation);

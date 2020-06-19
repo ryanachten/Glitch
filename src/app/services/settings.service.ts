@@ -1,6 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Mutations, Settings, ModifiedImage, OriginalImage } from "../models";
+import { Mutations, ModifiedImage, OriginalImage } from "../models";
 import { EncodingService } from "./encoding.service";
+
+interface Settings {
+  originalImages: Array<OriginalImage>;
+  epoch: number;
+  generationSize: number;
+  generatedImages: Array<ModifiedImage>;
+}
 
 @Injectable({
   providedIn: "root",
@@ -33,14 +40,10 @@ export class SettingsService {
         generationSize,
         generatedImages,
         epoch,
-        mimeType,
-        dataHeader,
       }: Settings = JSON.parse(settings);
       this.originalImages = originalImages;
       this.generationSize = generationSize;
       this.generatedImages = generatedImages;
-      this.encoding.mimeType = mimeType;
-      this.encoding.dataHeader = dataHeader;
       this.epoch = epoch;
     }
   }
@@ -50,8 +53,6 @@ export class SettingsService {
       originalImages: this.originalImages,
       generationSize: this.generationSize,
       generatedImages: this.generatedImages,
-      dataHeader: this.encoding.dataHeader,
-      mimeType: this.encoding.mimeType,
       epoch: this.epoch,
     };
     localStorage.setItem("settings", JSON.stringify(settings));
