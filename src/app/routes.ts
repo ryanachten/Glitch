@@ -20,7 +20,7 @@ export const routes: Routes = [
   {
     path: "mutation/:id",
     component: DetailComponent,
-    resolve: { image: DetailResolver },
+    resolve: { data: DetailResolver },
   },
   { path: "**", redirectTo: "", pathMatch: "full" },
 ];

@@ -1,18 +1,29 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
-import { ModifiedImage } from "../models";
+import { ModifiedImage, OriginalImage } from "../models";
 import { Observable, of } from "rxjs";
 import { SettingsService } from "../services/settings.service";
 
+export type DatailResponse = {
+  originalImage: OriginalImage;
+  mutatedImage: ModifiedImage;
+};
+
 @Injectable()
-export class DetailResolver implements Resolve<ModifiedImage> {
+export class DetailResolver implements Resolve<DatailResponse> {
   constructor(private settings: SettingsService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ModifiedImage> {
+  resolve(route: ActivatedRouteSnapshot): DatailResponse {
     const id = route.params["id"];
-    const activeImage = this.settings.generatedImages.find(
+    const mutatedImage: ModifiedImage = this.settings.generatedImages.find(
       (img) => img.id === id
     );
-    return of(activeImage);
+    const originalImage = this.settings.originalImages.find(
+      (img) => img.id === mutatedImage.original
+    );
+    return {
+      originalImage,
+      mutatedImage,
+    };
   }
 }
