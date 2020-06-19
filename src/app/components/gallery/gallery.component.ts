@@ -29,6 +29,7 @@ export class GalleryComponent implements OnInit {
   ngOnInit() {
     const image = this.route.data["value"]["image"];
     this.originalImage = image;
+    this.resetEvolution();
   }
 
   resetEvolution() {
