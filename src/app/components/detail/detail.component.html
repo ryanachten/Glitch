@@ -1,46 +1,47 @@
-<nz-breadcrumb>
+<!-- <nz-breadcrumb>
   <nz-breadcrumb-item>
     <a [routerLink]="['gallery']">Gallery</a>
   </nz-breadcrumb-item>
   <nz-breadcrumb-item>
     {{ currentImage.id }}
   </nz-breadcrumb-item>
-</nz-breadcrumb>
-
-<div class="detail__canvas-wrapper">
-  <app-canvas
-    [originalImage]="orignalImage"
-    [modifiedImage]="currentImage"
-  ></app-canvas>
-</div>
-<button
-  *ngIf="!animation"
-  nz-button
-  nzType="primary"
-  nzShape="circle"
-  (click)="onPlayHistory()"
->
-  <i nz-icon nzType="play-circle"></i>
-</button>
-<button
-  *ngIf="animation"
-  nz-button
-  nzType="primary"
-  nzShape="circle"
-  (click)="onPauseHistory()"
->
-  <i nz-icon nzType="pause-circle"></i>
-</button>
-
-<nz-steps
-  [nzCurrent]="currentImage.mutations.length - 1"
-  nzDirection="vertical"
->
-  <div *ngFor="let mutation of mutations; let i = index">
-    <nz-step [nzTitle]="mutation.name" [nzDescription]="metadataWrapper">
-    </nz-step>
-    <ng-template #metadataWrapper>
-      <app-metadata [mutation]="mutation"></app-metadata>
-    </ng-template>
+</nz-breadcrumb> -->
+<app-layout [breadcrumb]="breadcrumb">
+  <div class="detail__canvas-wrapper">
+    <app-canvas
+      [originalImage]="orignalImage"
+      [modifiedImage]="currentImage"
+    ></app-canvas>
   </div>
-</nz-steps>
+  <button
+    *ngIf="!animation"
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    (click)="onPlayHistory()"
+  >
+    <i nz-icon nzType="play-circle"></i>
+  </button>
+  <button
+    *ngIf="animation"
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    (click)="onPauseHistory()"
+  >
+    <i nz-icon nzType="pause-circle"></i>
+  </button>
+
+  <nz-steps
+    [nzCurrent]="currentImage.mutations.length - 1"
+    nzDirection="vertical"
+  >
+    <div *ngFor="let mutation of mutations; let i = index">
+      <nz-step [nzTitle]="mutation.name" [nzDescription]="metadataWrapper">
+      </nz-step>
+      <ng-template #metadataWrapper>
+        <app-metadata [mutation]="mutation"></app-metadata>
+      </ng-template>
+    </div>
+  </nz-steps>
+</app-layout>

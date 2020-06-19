@@ -1,6 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ModifiedImage, Mutation, OriginalImage } from "src/app/models";
+import {
+  ModifiedImage,
+  Mutation,
+  OriginalImage,
+  PageTemplate,
+  AppRoutes,
+} from "src/app/models";
 import { DatailResponse } from "src/app/resolver/detail.resolver";
 
 @Component({
@@ -8,8 +14,9 @@ import { DatailResponse } from "src/app/resolver/detail.resolver";
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.less"],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, PageTemplate {
   constructor(private route: ActivatedRoute) {}
+  breadcrumb = [AppRoutes.home];
   orignalImage: OriginalImage;
   currentImage: ModifiedImage;
   mutations: Mutation[];
@@ -21,6 +28,10 @@ export class DetailComponent implements OnInit {
 
     this.currentImage = mutatedImage;
     this.orignalImage = originalImage;
+    this.breadcrumb.push(
+      { ...AppRoutes.mutate, params: this.orignalImage.id },
+      { ...AppRoutes.mutation, params: this.currentImage.id }
+    );
     this.mutations = [...mutatedImage.mutations];
   }
 
