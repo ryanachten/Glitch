@@ -5,10 +5,6 @@ import { DetailResolver } from "./resolver/detail.resolver";
 import { OrginalsComponent } from "./pages/orginals/orginals.component";
 import { MutateResolver } from "./resolver/mutate.resolver";
 
-export const routePaths = {
-  mutation: "mutation",
-};
-
 export const routes: Routes = [
   { path: "", component: OrginalsComponent },
   { path: "originals", component: OrginalsComponent },

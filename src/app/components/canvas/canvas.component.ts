@@ -5,9 +5,8 @@ import {
   ViewChild,
   SimpleChange,
 } from "@angular/core";
-import { ModifiedImage, OriginalImage } from "src/app/models";
+import { AppRoutes, ModifiedImage, OriginalImage } from "src/app/models";
 import { Router } from "@angular/router";
-import { routePaths } from "src/app/routes";
 import { GlitchService } from "src/app/services/glitch.service";
 
 @Component({
@@ -68,6 +67,6 @@ export class CanvasComponent implements OnInit {
   }
 
   navigateToDetail() {
-    this.router.navigate([routePaths.mutation, this.modifiedImage.id]);
+    this.router.navigate([AppRoutes.mutation.path, this.modifiedImage.id]);
   }
 }

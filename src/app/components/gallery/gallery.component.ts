@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import * as uuid from "uuid";
 import {
+  AppRoutes,
   ModifiedImage,
   Mutator,
   Mutation,
   OriginalImage,
+  PageTemplate,
 } from "src/app/models";
 import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
@@ -16,7 +18,8 @@ import { ActivatedRoute } from "@angular/router";
   templateUrl: "./gallery.component.html",
   styleUrls: ["./gallery.component.less"],
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, PageTemplate {
+  breadcrumb = [AppRoutes.home, AppRoutes.mutation];
   originalImage: OriginalImage;
 
   constructor(

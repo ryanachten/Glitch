@@ -1,3 +1,23 @@
+export type AppRoute = {
+  path: string;
+  label: string;
+};
+
+export const AppRoutes: { [route: string]: AppRoute } = {
+  home: {
+    path: "",
+    label: "Home",
+  },
+  mutation: {
+    path: "mutation",
+    label: "Mutation",
+  },
+};
+
+export interface PageTemplate {
+  breadcrumb: Array<AppRoute>;
+}
+
 export const Mutations: {
   [mutation: string]: {
     id: string;
