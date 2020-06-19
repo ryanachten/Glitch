@@ -1,3 +1,9 @@
+<nz-alert
+  *ngIf="error"
+  nzType="error"
+  [nzMessage]="error"
+  nzShowIcon
+></nz-alert>
 <!-- TODO: use upload component when API integration has been developed -->
 <input name="image" type="file" (change)="uploadImage($event)" />
 <img

@@ -7,6 +7,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
+import { NzAlertModule } from "ng-zorro-antd/alert";
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
 import { NzFormModule } from "ng-zorro-antd/form";
@@ -49,6 +50,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
+    NzAlertModule,
     NzBreadCrumbModule,
     NzButtonModule,
     NzFormModule,
