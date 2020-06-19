@@ -12,6 +12,7 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
+import { NzLayoutModule } from "ng-zorro-antd/layout";
 import { NzSliderModule } from "ng-zorro-antd/slider";
 import { NzStepsModule } from "ng-zorro-antd/steps";
 
@@ -28,6 +29,7 @@ import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
 import { MetadataComponent } from "./components/metadata/metadata.component";
 import { OrginalsComponent } from "./pages/orginals/orginals.component";
+import { LayoutComponent } from './components/layout/layout.component';
 
 registerLocaleData(en);
 
@@ -41,6 +43,7 @@ registerLocaleData(en);
     DetailComponent,
     MetadataComponent,
     OrginalsComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ registerLocaleData(en);
     NzButtonModule,
     NzFormModule,
     NzInputNumberModule,
+    NzLayoutModule,
     NzSliderModule,
     NzStepsModule,
   ],
