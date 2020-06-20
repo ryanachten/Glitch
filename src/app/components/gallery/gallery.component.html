@@ -1,30 +1,44 @@
 <app-layout [breadcrumb]="breadcrumb">
-  <nz-layout class="inner-layout">
+  <nz-layout>
     <nz-sider nzWidth="200px" nzTheme="light">
-      <ul nz-menu nzMode="inline" class="sider-menu">
-        <li nz-submenu nzOpen nzTitle="subnav 1" nzIcon="user">
+      <ul nz-menu nzMode="inline">
+        <li nz-submenu nzTitle="Generation" nzIcon="user">
           <ul>
-            <li nz-menu-item nzSelected>option1</li>
-            <li nz-menu-item>option2</li>
-            <li nz-menu-item>option3</li>
-            <li nz-menu-item>option4</li>
+            <nz-form-item>
+              <nz-form-label nzFor="generationSize"
+                >Generation size</nz-form-label
+              >
+              <nz-input-number
+                name="generationSize"
+                [nzMax]="10"
+                [nzMin]="1"
+                [(ngModel)]="settings.generationSize"
+              >
+              </nz-input-number>
+              <button
+                nz-button
+                (click)="resetEvolution()"
+                *ngIf="settings.generatedImages.length"
+              >
+                Reset Evolution
+              </button>
+            </nz-form-item>
           </ul>
         </li>
-        <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
+        <li nz-submenu nzOpen nzTitle="Find and Replace" nzIcon="laptop">
           <ul>
-            <li nz-menu-item>option5</li>
-            <li nz-menu-item>option6</li>
-            <li nz-menu-item>option7</li>
-            <li nz-menu-item>option8</li>
+            <app-find-and-replace
+              [maxLength]="originalImage.imageData.length / 2"
+              (onCreateGeneration)="this.createGeneration($event)"
+            ></app-find-and-replace>
           </ul>
         </li>
-        <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
-          <ul>
-            <li nz-menu-item>option9</li>
-            <li nz-menu-item>option10</li>
-            <li nz-menu-item>option11</li>
-            <li nz-menu-item>option12</li>
-          </ul>
+        <li nz-submenu nzOpen nzTitle="Swap Image Data" nzIcon="notification">
+          <app-swap-image-data
+            [maxLength]="originalImage.imageData.length / 2"
+            (onCreateGeneration)="this.createGeneration($event)"
+          >
+          </app-swap-image-data>
         </li>
       </ul>
     </nz-sider>
@@ -36,20 +50,7 @@
         width="100%"
       />
       <form nz-form>
-        <p nz-typography *ngIf="originalImage.mimeType">
-          Media type of {{ originalImage.mimeType }}
-        </p>
         <p nz-typography>Current generation: {{ settings.epoch }}</p>
-        <nz-form-item>
-          <nz-form-label nzFor="generationSize">Generation size</nz-form-label>
-          <nz-input-number
-            name="generationSize"
-            [nzMax]="10"
-            [nzMin]="1"
-            [(ngModel)]="settings.generationSize"
-          >
-          </nz-input-number>
-        </nz-form-item>
         <button
           nz-button
           (click)="previousGeneration()"
@@ -60,24 +61,7 @@
         <button nz-button (click)="redoGeneration()" *ngIf="settings.epoch > 0">
           Regenerate
         </button>
-        <button
-          nz-button
-          (click)="resetEvolution()"
-          *ngIf="settings.generatedImages.length"
-        >
-          Reset Evolution
-        </button>
       </form>
-
-      <app-find-and-replace
-        [maxLength]="originalImage.imageData.length / 2"
-        (onCreateGeneration)="this.createGeneration($event)"
-      ></app-find-and-replace>
-      <app-swap-image-data
-        [maxLength]="originalImage.imageData.length / 2"
-        (onCreateGeneration)="this.createGeneration($event)"
-      >
-      </app-swap-image-data>
 
       <div class="gallery">
         <div
