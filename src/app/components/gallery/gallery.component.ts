@@ -33,7 +33,12 @@ export class GalleryComponent implements OnInit, PageTemplate {
     const image = this.route.data["value"]["image"];
     this.originalImage = image;
     this.breadcrumb.push({ ...AppRoutes.mutate, params: image.id });
-    this.resetEvolution();
+
+    const existingImages = this.settings.generatedImages;
+    // Reset gallery if original image isn't what we were previously viewing
+    if (existingImages.length && existingImages[0].original !== image.id) {
+      this.resetEvolution();
+    }
   }
 
   resetEvolution() {
