@@ -13,8 +13,10 @@
         </nz-breadcrumb-item>
       </nz-breadcrumb>
     </nz-page-header>
-    <!-- Content must be wrapped in <nz-layout> -->
-    <ng-content></ng-content>
+    <div class="layout__content">
+      <!-- Content must be wrapped in <nz-layout> -->
+      <ng-content></ng-content>
+    </div>
     <nz-footer>Random footer</nz-footer>
   </nz-content>
 </nz-layout>

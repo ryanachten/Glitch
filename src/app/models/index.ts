@@ -64,4 +64,7 @@ export type OriginalImage = {
   mimeType: string;
   dataHeader: string;
   imageData: string;
+  height: number;
+  width: number;
+  size: number;
 };

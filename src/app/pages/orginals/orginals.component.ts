@@ -21,6 +21,24 @@ export class OrginalsComponent implements OnInit, PageTemplate {
 
   ngOnInit() {}
 
+  async getImageDimensions(
+    encodedUri: string
+  ): Promise<{ height: number; width: number }> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = encodedUri;
+      image.onload = () => {
+        resolve({
+          height: image.height,
+          width: image.width,
+        });
+      };
+      image.onerror = (e) => {
+        reject(e);
+      };
+    });
+  }
+
   uploadImage(event) {
     const files = event.target.files;
     if (!files.length) {
@@ -28,7 +46,7 @@ export class OrginalsComponent implements OnInit, PageTemplate {
     }
     const file: File = files[0];
     const fileReader: FileReader = new FileReader();
-    fileReader.onload = () => {
+    fileReader.onload = async () => {
       if (!fileReader.result) {
         return null;
       }
@@ -38,12 +56,17 @@ export class OrginalsComponent implements OnInit, PageTemplate {
       }
 
       const encodedUri = fileReader.result.toString();
+      const { height, width } = await this.getImageDimensions(encodedUri);
       const { dataHeader, mimeType } = this.encoding.getDataHeader(encodedUri);
+
       const originalImage: OriginalImage = {
+        height,
+        width,
         id: file.name,
         dataHeader,
         mimeType,
         imageData: encodedUri,
+        size: file.size,
       };
       this.settings.originalImages.push(originalImage);
       this.settings.save();
