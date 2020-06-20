@@ -1,10 +1,34 @@
 @import "../../styles/mixins.less";
 
-.gallery {
+.gallery__content {
+  padding: 40px;
+}
+
+.gallery__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
+.gallery__item {
+  position: relative;
+
+  .gallery__metadata {
+    display: none;
+    position: absolute;
+    top: 0;
+  }
+
+  &:hover {
+    .gallery__metadata {
+      display: block;
+    }
+  }
+}
+
 .gallery__img {
   .responsive-img();
+}
+
+.gallery__sidebar {
+  padding: 20px;
 }
