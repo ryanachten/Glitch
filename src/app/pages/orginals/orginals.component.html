@@ -32,9 +32,18 @@
             >{{ image.width }} x {{ image.height }}</nz-descriptions-item
           >
         </nz-descriptions>
-        <button (click)="deleteFile(image)" nz-button nzType="primary" nzDanger>
-          Delete
-        </button>
+        <nz-button-group>
+          <button
+            nz-button
+            nzType="primary"
+            [routerLink]="['/mutate/', image.id]"
+          >
+            Mutate
+          </button>
+          <button (click)="deleteFile(image)" nz-button nzDanger>
+            Delete
+          </button>
+        </nz-button-group>
       </div>
     </div>
   </nz-layout>

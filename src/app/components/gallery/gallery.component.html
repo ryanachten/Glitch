@@ -11,20 +11,6 @@
         alt="Original Image"
         width="100%"
       />
-      <form nz-form>
-        <p nz-typography>Current generation: {{ settings.epoch }}</p>
-        <button
-          nz-button
-          (click)="previousGeneration()"
-          *ngIf="settings.epoch > 1"
-        >
-          Previous Generation
-        </button>
-        <button nz-button (click)="redoGeneration()" *ngIf="settings.epoch > 0">
-          Regenerate
-        </button>
-      </form>
-
       <div class="gallery__grid">
         <div
           class="gallery__item"
@@ -45,30 +31,49 @@
     </nz-content>
     <nz-sider class="gallery__sidebar" nzWidth="300px" nzTheme="light">
       <ul nz-menu nzMode="inline">
-        <li nz-submenu nzTitle="Generation" nzIcon="user">
-          <ul>
-            <nz-form-item>
-              <nz-form-label nzFor="generationSize"
-                >Generation size</nz-form-label
-              >
-              <nz-input-number
-                name="generationSize"
-                [nzMax]="10"
-                [nzMin]="1"
-                [(ngModel)]="settings.generationSize"
-              >
-              </nz-input-number>
-              <button
-                nz-button
-                (click)="resetEvolution()"
-                *ngIf="settings.generatedImages.length"
-              >
-                Reset Evolution
-              </button>
-            </nz-form-item>
-          </ul>
+        <li nz-submenu nzTitle="Generation" nzOpen>
+          <nz-descriptions>
+            <nz-descriptions-item nzTitle="Current generation">{{
+              settings.epoch
+            }}</nz-descriptions-item>
+          </nz-descriptions>
+          <nz-form-item>
+            <nz-form-label nzFor="generationSize"
+              >Generation size</nz-form-label
+            >
+            <nz-input-number
+              name="generationSize"
+              [nzMax]="10"
+              [nzMin]="1"
+              [(ngModel)]="settings.generationSize"
+            >
+            </nz-input-number>
+          </nz-form-item>
+          <nz-button-group>
+            <button
+              nz-button
+              (click)="previousGeneration()"
+              *ngIf="settings.epoch > 1"
+            >
+              Previous Generation
+            </button>
+            <button
+              nz-button
+              (click)="redoGeneration()"
+              *ngIf="settings.epoch > 0"
+            >
+              Regenerate
+            </button>
+            <button
+              nz-button
+              (click)="resetEvolution()"
+              *ngIf="settings.epoch > 0"
+            >
+              Reset Evolution
+            </button>
+          </nz-button-group>
         </li>
-        <li nz-submenu nzOpen nzTitle="Find and Replace" nzIcon="laptop">
+        <li nz-submenu nzOpen nzTitle="Find and Replace">
           <ul>
             <app-find-and-replace
               [maxLength]="originalImage.imageData.length / 2"
@@ -76,7 +81,7 @@
             ></app-find-and-replace>
           </ul>
         </li>
-        <li nz-submenu nzOpen nzTitle="Swap Image Data" nzIcon="notification">
+        <li nz-submenu nzOpen nzTitle="Swap Image Data">
           <app-swap-image-data
             [maxLength]="originalImage.imageData.length / 2"
             (onCreateGeneration)="this.createGeneration($event)"
