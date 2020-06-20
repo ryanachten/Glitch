@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Mutations, Mutator, Mutation, OriginalImage } from "../models";
+import { Mutator, Mutation, OriginalImage } from "../models";
 import { FindAndReplaceComponent } from "../components/mutations/find-and-replace/find-and-replace.component";
 import { SwapImageDataComponent } from "../components/mutations/swap-image-data/swap-image-data.component";
 import { SettingsService } from "./settings.service";
 import { EncodingService } from "./encoding.service";
+import { Mutations } from "../constants";
 
 @Injectable({
   providedIn: "root",

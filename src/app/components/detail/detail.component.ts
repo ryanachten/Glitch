@@ -5,9 +5,9 @@ import {
   Mutation,
   OriginalImage,
   PageTemplate,
-  AppRoutes,
 } from "src/app/models";
 import { DatailResponse } from "src/app/resolver/detail.resolver";
+import { AppRoutes } from "src/app/constants";
 
 @Component({
   selector: "app-detail",

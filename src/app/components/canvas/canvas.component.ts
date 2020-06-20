@@ -5,9 +5,10 @@ import {
   ViewChild,
   SimpleChange,
 } from "@angular/core";
-import { AppRoutes, ModifiedImage, OriginalImage } from "src/app/models";
+import { ModifiedImage, OriginalImage } from "src/app/models";
 import { Router } from "@angular/router";
 import { GlitchService } from "src/app/services/glitch.service";
+import { AppRoutes } from "src/app/constants";
 
 @Component({
   selector: "app-canvas",

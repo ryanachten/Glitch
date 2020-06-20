@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Mutation, Mutations } from "src/app/models";
+import { Mutation } from "src/app/models";
 import { ReplacementMutation } from "../mutations/find-and-replace/find-and-replace.component";
 import { SwapMutation } from "../mutations/swap-image-data/swap-image-data.component";
+import { Mutations } from "src/app/constants";
 
 @Component({
   selector: "app-metadata",

@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
-import { Mutator, Mutation, Mutations } from "src/app/models";
+import { Mutator, Mutation } from "src/app/models";
 import { SettingsService } from "src/app/services/settings.service";
+import { Mutations } from "src/app/constants";
 
 export type ReplacementMutation = Mutation & {
   replacementQuery: string;

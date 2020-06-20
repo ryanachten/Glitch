@@ -4,42 +4,11 @@ export type AppRoute = {
   label: string;
 };
 
-export const AppRoutes: { [route: string]: AppRoute } = {
-  home: {
-    path: "",
-    label: "Home",
-  },
-  mutate: {
-    path: "/mutate/",
-    label: "Mutate",
-  },
-  mutation: {
-    path: "/mutation/",
-    label: "Mutation",
-  },
-};
-
 export interface PageTemplate {
   breadcrumb: Array<AppRoute>;
   pageTitle: string;
   pageSubtitle: string;
 }
-
-export const Mutations: {
-  [mutation: string]: {
-    id: string;
-    name: string;
-  };
-} = {
-  FindAndReplace: {
-    id: "FindAndReplace",
-    name: "Find and Replace",
-  },
-  SwapImageData: {
-    id: "SwapImageData",
-    name: "Swap Image Data",
-  },
-};
 
 export interface Mutator {
   mutation: Mutation;

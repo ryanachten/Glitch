@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Mutations, ModifiedImage, OriginalImage } from "../models";
+import { ModifiedImage, OriginalImage } from "../models";
+import { Mutations } from "../constants";
 
 interface Settings {
   originalImages: Array<OriginalImage>;

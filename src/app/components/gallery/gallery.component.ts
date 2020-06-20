@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as uuid from "uuid";
 import {
-  AppRoutes,
   ModifiedImage,
   Mutator,
   Mutation,
@@ -12,6 +11,7 @@ import { EncodingService } from "src/app/services/encoding.service";
 import { GlitchService } from "src/app/services/glitch.service";
 import { SettingsService } from "src/app/services/settings.service";
 import { ActivatedRoute } from "@angular/router";
+import { AppRoutes } from "src/app/constants";
 
 @Component({
   selector: "app-gallery",
