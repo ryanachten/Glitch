@@ -13,6 +13,13 @@
         <a [routerLink]="[crumb.path, crumb?.params]">{{ crumb.label }}</a>
       </nz-breadcrumb-item>
     </nz-breadcrumb>
+    <nz-page-header
+      nzBackIcon
+      [nzTitle]="pageTitle"
+      [nzSubtitle]="pageSubtitle"
+    >
+      <!-- (nzBack)="onBack()" -->
+    </nz-page-header>
     <!-- Content must be wrapped in <nz-layout> -->
     <ng-content></ng-content>
     <nz-footer>Random footer</nz-footer>

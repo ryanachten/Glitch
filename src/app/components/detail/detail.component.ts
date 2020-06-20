@@ -15,12 +15,16 @@ import { DatailResponse } from "src/app/resolver/detail.resolver";
   styleUrls: ["./detail.component.less"],
 })
 export class DetailComponent implements OnInit, PageTemplate {
-  constructor(private route: ActivatedRoute) {}
   breadcrumb = [AppRoutes.home];
+  pageTitle = "Mutation";
+  pageSubtitle = "";
+
   orignalImage: OriginalImage;
   currentImage: ModifiedImage;
   mutations: Mutation[];
   animation: NodeJS.Timer;
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     const data: DatailResponse = this.route.data["value"]["data"];
@@ -32,6 +36,7 @@ export class DetailComponent implements OnInit, PageTemplate {
       { ...AppRoutes.mutate, params: this.orignalImage.id },
       { ...AppRoutes.mutation, params: this.currentImage.id }
     );
+    this.pageSubtitle = mutatedImage.id;
     this.mutations = [...mutatedImage.mutations];
   }
 

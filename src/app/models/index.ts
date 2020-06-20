@@ -21,6 +21,8 @@ export const AppRoutes: { [route: string]: AppRoute } = {
 
 export interface PageTemplate {
   breadcrumb: Array<AppRoute>;
+  pageTitle: string;
+  pageSubtitle: string;
 }
 
 export const Mutations: {

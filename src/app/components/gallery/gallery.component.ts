@@ -20,6 +20,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class GalleryComponent implements OnInit, PageTemplate {
   breadcrumb = [AppRoutes.home];
+  pageTitle = "Mutate";
+  pageSubtitle = "";
   originalImage: OriginalImage;
 
   constructor(
@@ -32,6 +34,7 @@ export class GalleryComponent implements OnInit, PageTemplate {
   ngOnInit() {
     const image = this.route.data["value"]["image"];
     this.originalImage = image;
+    this.pageSubtitle = image.id;
     this.breadcrumb.push({ ...AppRoutes.mutate, params: image.id });
 
     const existingImages = this.settings.generatedImages;

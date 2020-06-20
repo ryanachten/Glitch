@@ -8,8 +8,12 @@ import { AppRoute } from "src/app/models";
 })
 export class LayoutComponent implements OnInit {
   @Input() breadcrumb: Array<AppRoute> = [];
+  @Input() pageTitle: string;
+  @Input() pageSubtitle: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.pageTitle);
+  }
 }
