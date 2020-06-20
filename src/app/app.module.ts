@@ -10,6 +10,7 @@ import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 import { NzAlertModule } from "ng-zorro-antd/alert";
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
+import { NzDescriptionsModule } from "ng-zorro-antd/descriptions";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzLayoutModule } from "ng-zorro-antd/layout";
@@ -29,7 +30,7 @@ import { routes } from "./routes";
 import { DetailComponent } from "./components/detail/detail.component";
 import { MetadataComponent } from "./components/metadata/metadata.component";
 import { OrginalsComponent } from "./pages/orginals/orginals.component";
-import { LayoutComponent } from './components/layout/layout.component';
+import { LayoutComponent } from "./components/layout/layout.component";
 
 registerLocaleData(en);
 
@@ -56,6 +57,7 @@ registerLocaleData(en);
     NzAlertModule,
     NzBreadCrumbModule,
     NzButtonModule,
+    NzDescriptionsModule,
     NzFormModule,
     NzInputNumberModule,
     NzLayoutModule,

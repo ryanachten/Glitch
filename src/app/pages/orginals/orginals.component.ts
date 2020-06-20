@@ -45,7 +45,7 @@ export class OrginalsComponent implements OnInit, PageTemplate {
       return;
     }
     const file: File = files[0];
-    const fileReader: FileReader = new FileReader();
+    const fileReader = new FileReader();
     fileReader.onload = async () => {
       if (!fileReader.result) {
         return null;
@@ -73,5 +73,17 @@ export class OrginalsComponent implements OnInit, PageTemplate {
       this.error = undefined;
     };
     fileReader.readAsDataURL(file);
+  }
+
+  deleteFile(image: OriginalImage) {
+    const id = image.id;
+    const generatedImages = this.settings.generatedImages.filter(
+      (img) => img.original !== id
+    );
+    const originalImages = this.settings.originalImages.filter(
+      (img) => img.id !== id
+    );
+    this.settings.originalImages = originalImages;
+    this.settings.generatedImages = generatedImages;
   }
 }
