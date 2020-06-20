@@ -1,16 +1,24 @@
-<nz-alert
-  *ngIf="error"
-  nzType="error"
-  [nzMessage]="error"
-  nzShowIcon
-></nz-alert>
-<!-- TODO: use upload component when API integration has been developed -->
-<input name="image" type="file" (change)="uploadImage($event)" />
-<img
-  *ngFor="let image of settings.originalImages"
-  [routerLink]="['/mutate/', image.id]"
-  class="original__img"
-  src="{{ image.imageData }}"
-  alt="Original Image"
-  width="100%"
-/>
+<app-layout
+  [breadcrumb]="breadcrumb"
+  [pageTitle]="pageTitle"
+  [pageSubtitle]="pageSubtitle"
+>
+  <nz-layout>
+    <nz-alert
+      *ngIf="error"
+      nzType="error"
+      [nzMessage]="error"
+      nzShowIcon
+    ></nz-alert>
+    <!-- TODO: use upload component when API integration has been developed -->
+    <input name="image" type="file" (change)="uploadImage($event)" />
+    <img
+      *ngFor="let image of settings.originalImages"
+      [routerLink]="['/mutate/', image.id]"
+      class="original__img"
+      src="{{ image.imageData }}"
+      alt="Original Image"
+      width="100%"
+    />
+  </nz-layout>
+</app-layout>

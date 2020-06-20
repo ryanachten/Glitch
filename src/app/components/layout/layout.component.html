@@ -1,24 +1,17 @@
 <nz-layout>
   <nz-header>
-    <div class="logo"></div>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
-      <li nz-menu-item>nav 1</li>
-      <li nz-menu-item nzSelected>nav 2</li>
-      <li nz-menu-item>nav 3</li>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li [routerLink]="['']" nz-menu-item nzSelected>Showcase</li>
+      <li [routerLink]="['/originals/']" nz-menu-item>Media</li>
     </ul>
   </nz-header>
-  <nz-content class="outer-content">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item *ngFor="let crumb of breadcrumb">
-        <a [routerLink]="[crumb.path, crumb?.params]">{{ crumb.label }}</a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <nz-page-header
-      nzBackIcon
-      [nzTitle]="pageTitle"
-      [nzSubtitle]="pageSubtitle"
-    >
-      <!-- (nzBack)="onBack()" -->
+  <nz-content>
+    <nz-page-header [nzTitle]="pageTitle" [nzSubtitle]="pageSubtitle">
+      <nz-breadcrumb nz-page-header-breadcrumb>
+        <nz-breadcrumb-item *ngFor="let crumb of breadcrumb">
+          <a [routerLink]="[crumb.path, crumb?.params]">{{ crumb.label }}</a>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
     </nz-page-header>
     <!-- Content must be wrapped in <nz-layout> -->
     <ng-content></ng-content>

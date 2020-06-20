@@ -1,14 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { SettingsService } from "src/app/services/settings.service";
 import { EncodingService } from "src/app/services/encoding.service";
-import { OriginalImage } from "src/app/models";
+import { OriginalImage, PageTemplate } from "src/app/models";
 
 @Component({
   selector: "app-orginals",
   templateUrl: "./orginals.component.html",
   styleUrls: ["./orginals.component.less"],
 })
-export class OrginalsComponent implements OnInit {
+export class OrginalsComponent implements OnInit, PageTemplate {
+  breadcrumb = [];
+  pageTitle = "Original Media";
+  pageSubtitle = "Upload files";
   error: string;
 
   constructor(
