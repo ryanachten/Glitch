@@ -10,7 +10,7 @@ export type SwapMutation = Mutation & {
 };
 
 type Settings = {
-  maxSwapLength: number;
+  swapLength: number;
 };
 
 @Component({
@@ -35,10 +35,9 @@ export class SwapImageDataComponent implements OnInit, Mutator {
   }
 
   public seed(imageData: string): SwapMutation {
-    const { maxSwapLength } = this.settings.mutations[
+    const { swapLength } = this.settings.mutations[
       this.mutation.id
     ] as Settings;
-    const swapLength = Math.floor(Math.random() * maxSwapLength) || 1;
 
     const aIndex = Math.floor((Math.random() * imageData.length) / 2);
     const bIndex =

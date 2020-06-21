@@ -10,7 +10,7 @@ export type ReplacementMutation = Mutation & {
 };
 
 type Settings = {
-  maxReplaceLength: number;
+  replaceLength: number;
 };
 
 @Component({
@@ -36,21 +36,19 @@ export class FindAndReplaceComponent implements OnInit, Mutator {
   }
 
   public seed(imageBody: string): ReplacementMutation {
-    const { maxReplaceLength } = this.settings.mutations[
+    const { replaceLength } = this.settings.mutations[
       this.mutation.id
     ] as Settings;
 
-    const substrLength = Math.floor(Math.random() * maxReplaceLength) || 1;
-
     const replaceIndex =
-      Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-    const replacementText = imageBody.substr(replaceIndex, substrLength);
+      Math.floor(Math.random() * (imageBody.length - replaceLength)) || 1;
+    const replacementText = imageBody.substr(replaceIndex, replaceLength);
 
     let queryStr: string;
     const setQueryStr = () => {
       const startIndex =
-        Math.floor(Math.random() * (imageBody.length - substrLength)) || 1;
-      queryStr = imageBody.substr(startIndex, substrLength);
+        Math.floor(Math.random() * (imageBody.length - replaceLength)) || 1;
+      queryStr = imageBody.substr(startIndex, replaceLength);
     };
     setQueryStr();
 

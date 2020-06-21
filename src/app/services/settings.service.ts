@@ -20,10 +20,10 @@ export class SettingsService {
 
   mutations = {
     [Mutations.FindAndReplace.id]: {
-      maxReplaceLength: 6,
+      replaceLength: 6,
     },
     [Mutations.SwapImageData.id]: {
-      maxSwapLength: 6,
+      swapLength: 6,
     },
   };
 

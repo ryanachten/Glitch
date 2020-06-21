@@ -1,9 +1,12 @@
 <form nz-form>
-    <nz-form-item>
-        <nz-form-label nzFor="maxSwapLength">Swap length</nz-form-label>
-        <nz-input-number name="maxSwapLength" [nzMax]="10" [nzMin]="1"
-            [(ngModel)]="settings.mutations[mutation.id].maxSwapLength">
-        </nz-input-number>
-    </nz-form-item>
-    <button nz-button (click)="onCreateClick()">Swap Image Data</button>
+  <nz-form-item>
+    <nz-form-label nzFor="swapLength">Swap length</nz-form-label>
+    <nz-slider
+      id="swapLength"
+      name="swapLength"
+      [nzMax]="maxLength"
+      [(ngModel)]="settings.mutations[mutation.id].swapLength"
+    ></nz-slider>
+  </nz-form-item>
+  <button nz-button (click)="onCreateClick()">Swap Image Data</button>
 </form>
